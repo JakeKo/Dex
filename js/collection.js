@@ -1,4 +1,4 @@
-class Matrix {
+module.exports.Matrix = class Matrix {
 	constructor() {
 		this.rows = new Array();	
 	}
