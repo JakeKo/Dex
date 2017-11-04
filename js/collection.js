@@ -3,6 +3,31 @@ module.exports.Matrix = class Matrix {
 		this.rows = new Array();	
 	}
 
+	getRows() {
+		return this.rows;
+	}
+
+	getColumns() {
+		let columns = new Array();
+
+		for (let i = 0; i < this.getWidth(); i++) {
+			columns.push(new Array());
+
+			for (let row of this.rows)
+				columns[i].push(row[i]);
+		}
+
+		return columns;
+	}
+
+	getWidth() {
+		return this.rows.length > 0 ? this.rows[0].length : 0;
+	}
+
+	getHeight() {
+		this.rows.length;
+	}
+
 	pushRow(newRow) {
 		if (this.rows.length > 0)
 			console.assert(this.rows[0].length === newRow.length, 'New row is not of the same length as existing matrix');
