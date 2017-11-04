@@ -1,0 +1,22 @@
+{
+  "name": "dex",
+  "version": "1.0.0",
+  "description": "Dex is web framework that I am developing in my free time which implements your standard Data Structures 101 and Discrete Math 101 ideas. There are probably other *better* frameworks out there. But this one is mine.",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakeKo/Dex.git"
+  },
+  "author": "Jacob Koperski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JakeKo/Dex/issues"
+  },
+  "homepage": "https://github.com/JakeKo/Dex#readme",
+  "dependencies": {
+    "tape": "^4.8.0"
+  }
+}
