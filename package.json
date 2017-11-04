@@ -16,7 +16,7 @@
     "url": "https://github.com/JakeKo/Dex/issues"
   },
   "homepage": "https://github.com/JakeKo/Dex#readme",
-  "dependencies": {
+  "devDependencies": {
     "tape": "^4.8.0"
   }
 }
