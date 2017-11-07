@@ -28,6 +28,19 @@ module.exports.Matrix = class Matrix {
 		this.rows.length;
 	}
 
+	toString() {
+		let s = '';
+
+		for (let row of this.rows) {
+			for (let element of row)
+				s += String(element).padStart(5);
+
+			s += '\n';
+		}
+
+		return s;
+	}
+
 	pushRow(newRow) {
 		if (this.rows.length > 0)
 			console.assert(this.rows[0].length === newRow.length, 'New row is not of the same length as existing matrix');
@@ -43,17 +56,31 @@ module.exports.Matrix = class Matrix {
 	}
 
 	pushColumn(newColumn) {
-		console.assert(this.rows.length === newColumn.length, 'New column is not of the same length as existing matrix');
+		if (this.rows.length > 0)
+			console.assert(this.rows.length === newColumn.length, 'New column is not of the same length as existing matrix');
 
-		for (let i = 0; i < this.rows.length; i++)
-			this.rows[i].push(newColumn[i]);
+		if (this.rows.length === 0)
+			for (let i = 0; i < newColumn.length; i++) {
+				this.rows.push(new Array());
+				this.rows[i].push(newColumn[i]);
+			}
+		else
+			for (let i = 0; i < this.rows.length; i++)
+				this.rows[i].push(newColumn[i]);
 	}
 
 	insertColumn(index, newColumn) {
-		console.assert(this.rows.length === newColumn.length, 'New column is not of the same length as existing matrix');
+		if (this.rows.length > 0)
+			console.assert(this.rows.length === newColumn.length, 'New column is not of the same length as existing matrix');
 		
-		for (let i = 0; i < this.rows.length; i++)
-			this.rows[i].splice(index, 0, newColumn[i]);
+		if (this.rows.length === 0)
+			for (let i = 0; i < newColumn.length; i++) {
+				this.rows.push(new Array());
+				this.rows[i].splice(index, 0, newColumn[i]);
+			}
+		else
+			for (let i = 0; i < this.rows.length; i++)
+				this.rows[i].splice(index, 0, newColumn[i]);
 	}
 
 	popRow() {
