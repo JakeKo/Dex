@@ -8,6 +8,11 @@ module.exports.Matrix = class Matrix {
 		return this.rows;
 	}
 
+	// Returns an array representing the row at the specified index
+	getRow(index) {
+		return this.rows[index];
+	}
+
 	// Returns an array of arrays representing the columns in the matrix
 	getColumns() {
 		let columns = new Array();
@@ -20,6 +25,16 @@ module.exports.Matrix = class Matrix {
 		}
 
 		return columns;
+	}
+	
+	// Returns an array representing the column at the specified index
+	getColumn(index) {
+		let column = new Array();
+
+		for (let row of rows)
+			column.push(row[index]);
+
+		return column;
 	}
 
 	// Returns the length of the rows in the matrix
