@@ -1,6 +1,10 @@
 class Vertex {
-	constructor(name) {
-		this.name = name;
+	constructor(id) {
+		this.id = id;
+	}
+
+	getID() {
+		return this.id
 	}
 }
 
@@ -24,20 +28,8 @@ class UndirectedEdge {
 
 class UndirectedGraph {
 	constructor() {
-		this.vertices = new Array();
-		this.edges = new Array();
-		this.adjacencyMatrix = new Array();
-		this.adjacencyList = new Array();
-	}
-
-	// Returns an array of all vertices in the undirected graph
-	getVertices() {
-		return this.vertices;
-	}
-
-	// Returns an array of all undirected edges in the undirected graph
-	getEdges() {
-		return this.edges;
+		this.adjacencyMatrix = new Matrix();
+		this.adjacencyList = new Map();
 	}
 
 	// Returns the adjacency matrix of the undirected graph
@@ -50,40 +42,52 @@ class UndirectedGraph {
 		return this.adjacencyList;
 	}
 
-	// Adds a new vertex a to the undirected graph
-	// Returns false if the a is already in the undirected graph
-	addVertex(a) {
-		if (this.hasVertex(a)) return false;
-		this.vertices.push(a.getName());
-		// TODO Modify adjacency matrix and list		
+	// Adds a new vertex v to the undirected graph
+	// Returns false if v is already in the undirected graph
+	addVertex(v) {
+		if (this.hasVertex(v)) return false;
+		this.adjacencyMatrix.insertRow(v.getID());
+		this.adjacencyMatrix.insertColumn(v.getID());
+		this.adjacencyList.set(v.getID(), new Array());
+		return true;		
 	}
 
-	// Removes the vertex a from the undirected graph
-	// Returns false if a is not in the undirected graph
-	removeVertex(a) {
-		if (!this.hasVertex(a)) return false;
-		this.vertices.pop(a.getName());
-		// TODO Modify adjacency matrix and list
+	// Removes the vertex v from the undirected graph
+	// Returns false if v is not in the undirected graph
+	removeVertex(v) {
+		if (!this.hasVertex(v)) return false;
+		this.adjacencyMatrix.removeRow(v.getID());
+		this.adjacencyMatrix.removeColumn(v.getID());
+		this.adjacencyList.delete(v.getID());
+		return true;
 	}
 
-	// Adds a new undirected edge e to the undirected graph
-	// Returns false if vertices a or b are not in the undirected graph
-	addEdge(e) { }
-
-	// Removes the edge e from the undirected graph
-	// Returns false if e is not in the undirected graph
-	removeEdge(e) {	}
-
-	// Returns an array of vertices connected to vertex a
-	// Returns false if a is not in the undirected graph
-	getNeighbors(a) {
-		if (!this.hasVertex(a)) return false;
-		return this.adjacencyList[a.getName()];
+	// Adds a new undirected edge between vertices u and v to the undirected graph
+	// Returns false if u or v are not in the undirected graph
+	addEdge(u, w, v) {
+		if (!this.hasVertex(u) || !this.hasVertex(v)) return false;
+		// TODO: Modify adjacency matrix
+		// this.adjacencyMatrix[u.getID()][v.getID()] = w;
+		// this.adjacencyMatrix[v.getID()][u.getID()] = w;
+		this.adjacencyList.get(u.getID()).push({ vertex: v, weight: w });
+		this.adjacencyList.get(v.getID()).push({ vertex: u, weight: w });
+		return true;
 	}
 
-	// Returns true if the undirected graph contains vertex a
-	hasVertex(a) {
-		return this.vertices.includes(a.getName());
+	// Removes the edge between vertices u and v from the undirected graph
+	// Returns false if u or v are not in the undirected graph
+	removeEdge(u, v) {	}
+
+	// Returns an array of vertices connected to vertex v
+	// Returns false if v is not in the undirected graph
+	getNeighbors(v) {
+		if (!this.hasVertex(v)) return false;
+		return this.adjacencyList.get(v.getID());
+	}
+
+	// Returns true if the undirected graph contains vertex v
+	hasVertex(v) {
+		return this.adjacencyList.has(v.getID());
 	}
 
 	// Returns the undirected edge connecting vertices a and b
