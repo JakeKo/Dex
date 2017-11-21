@@ -146,3 +146,92 @@ class UndirectedGraph {
 		return false;
 	}
 }
+
+module.exports.Node = class Node {
+	constructor(value = undefined, leftChild = undefined, rightChild = undefined) {
+		this.value = value;
+		this.leftChild = leftChild;
+		this.rightChild = rightChild;
+	}
+	
+	// Returns the value of the node
+	get value() {
+		return this.value;
+	}
+
+	// Returns an object representing the left child of the node
+	get leftChild() {
+		return this.leftChild;
+	}
+
+	// Returns an object representing the right child of the node
+	get rightChild() {
+		return this.rightChild;
+	}
+
+	// Sets the value of the node to the specified value
+	set value(value) {
+		this.value = value;
+	}
+
+	// Sets the left child of the node to the specified object
+	set leftChild(leftValue) {
+		this.leftChild = new Node(leftValue);
+	}
+
+	// Sets the right child of the node to the specified object
+	set rightChild(rightValue) {
+		this.rightChild = new Node(rightValue);
+	}
+	
+	// Returns and an array containing the children of the node
+	children() {
+		return [this.leftChild, this.rightChild];
+	}
+}
+
+module.exports.BinarySearchTree = class BinarySearchTree {
+	constructor(metric, elements) { }
+
+	// Inserts an element in the tree, maintaining order
+	// Returns true if the element was successfully inserted
+	// Returns false otherwise
+	insert(value) {	}
+
+	// Removes a value from the tree, maintaining order
+	// Returns the removed value
+	// Returns false if the value does not exist
+	delete(value) { }
+
+	// Returns the index of the sought-for value
+	// Returns false if the value does not exist or is undefined
+	search(value) { }
+
+	// Returns the parent of the specified node
+	// Returns false if the node is undefined or has no parent
+	parent(node) { }
+
+	// Returns a binary search tree representing the left subtree of the specified node
+	// Returns false if there is no left subtree
+	// Returns false if the node is undefined
+	leftSubtree(node) { }
+	
+	// Returns a binary search tree representing the right subtree of the specified node
+	// Returns false if there is no right subtree
+	// Returns false if the node is undefined
+	rightSubtree(node) { }
+
+	// Swaps the specified nodes in the tree
+	// Returns false if one or both nodes do not exist in the tree
+	// Returns false if one or both nodes are undefined
+	swapNodes(parent, child) { }
+
+	// Returns an array representing a pre-order traversal
+	preOrderTraversal() { }
+	
+	// Returns an array representing an in-order traversal
+	inOrderTraversal() { }
+
+	// Returns an array representing a post-order traversal
+	postOrderTraversal() { }
+}
