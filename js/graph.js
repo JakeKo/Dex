@@ -148,40 +148,40 @@ class UndirectedGraph {
 }
 
 module.exports.Node = class Node {
-	constructor(value = undefined, leftChild = undefined, rightChild = undefined) {
-		this.value = value;
-		this.leftChild = leftChild;
-		this.rightChild = rightChild;
+	constructor(v = undefined, l = undefined, r = undefined) {
+		this._value = v;
+		this._leftChild = l;
+		this._rightChild = r;
 	}
 	
 	// Returns the value of the node
-	getValue() {
-		return this.value;
+	get value() {
+		return this._value;
 	}
 
 	// Returns an object representing the left child of the node
-	getLeftChild() {
-		return this.leftChild;
+	get leftChild() {
+		return this._leftChild;
 	}
 
 	// Returns an object representing the right child of the node
-	getRightChild() {
-		return this.rightChild;
+	get rightChild() {
+		return this._rightChild;
 	}
 
 	// Sets the value of the node to the specified value
-	setValue(value) {
-		this.value = value;
+	set value(v) {
+		this._value = v;
 	}
 
 	// Sets the left child of the node to the specified object
-	setLeftChild(leftValue) {
-		this.leftChild = new Node(leftValue);
+	set leftChild(l) {
+		this._leftChild = new Node(l);
 	}
 
 	// Sets the right child of the node to the specified object
-	setRightChild(rightValue) {
-		this.rightChild = new Node(rightValue);
+	set rightChild(r) {
+		this._rightChild = new Node(r);
 	}
 	
 	// Returns and an array containing the children of the node
