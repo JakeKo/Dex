@@ -155,32 +155,32 @@ module.exports.Node = class Node {
 	}
 	
 	// Returns the value of the node
-	get value() {
+	getValue() {
 		return this.value;
 	}
 
 	// Returns an object representing the left child of the node
-	get leftChild() {
+	getLeftChild() {
 		return this.leftChild;
 	}
 
 	// Returns an object representing the right child of the node
-	get rightChild() {
+	getRightChild() {
 		return this.rightChild;
 	}
 
 	// Sets the value of the node to the specified value
-	set value(value) {
+	setValue(value) {
 		this.value = value;
 	}
 
 	// Sets the left child of the node to the specified object
-	set leftChild(leftValue) {
+	setLeftChild(leftValue) {
 		this.leftChild = new Node(leftValue);
 	}
 
 	// Sets the right child of the node to the specified object
-	set rightChild(rightValue) {
+	setRightChild(rightValue) {
 		this.rightChild = new Node(rightValue);
 	}
 	
