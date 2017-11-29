@@ -59,3 +59,9 @@ Test('The Node class handles recursive values', (assert) => {
 	assert.deepEqual(n1.value, n1);
 	assert.end();
 });
+
+Test('The Node class tracks its children', (assert) => {
+	let n = new Graph.Node(7, 6, 5);
+	assert.deepEqual(n.children(), [6, 5]);
+	assert.end();
+});
