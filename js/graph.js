@@ -129,7 +129,7 @@ class UndirectedGraph {
 	}
 
 	// Returns true if the undirected graph is cyclic
-	isCyclic() { 'p'}
+	isCyclic() { }
 
 	// Returns true if the undirected graph is reflexive
 	isReflexive() {
