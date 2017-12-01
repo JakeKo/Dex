@@ -186,17 +186,37 @@ module.exports.Node = class Node {
 	
 	// Returns and an array containing the children of the node
 	children() {
-		return [this.leftChild, this.rightChild];
+		return [this._leftChild, this._rightChild];
 	}
 }
 
 module.exports.BinarySearchTree = class BinarySearchTree {
-	constructor(metric, elements) { }
+	constructor(metric, elements = new Array()) {
+		this._root = undefined;
+		this._metric = metric;
+
+		for (let e of elements)
+			this.insert(e);
+	}
+
+	// Returns the root of the tree
+	get root() {
+		return this._root;
+	}
 
 	// Inserts an element in the tree, maintaining order
 	// Returns true if the element was successfully inserted
 	// Returns false otherwise
-	insert(value) {	}
+	insert(value) {
+		let node = this._root;
+
+		while (node) {
+			if (value < this._metric(node)) node = node.leftChild;
+			else if (value >= this._metric(node)) node = node.rightChild;
+		}
+
+		node = new Node(value);
+	}
 
 	// Removes a value from the tree, maintaining order
 	// Returns the removed value
