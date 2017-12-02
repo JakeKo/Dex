@@ -191,9 +191,9 @@ module.exports.Node = class Node {
 }
 
 module.exports.BinarySearchTree = class BinarySearchTree {
-	constructor(metric, elements = new Array()) {
+	constructor(toVal, elements = new Array()) {
 		this._root = undefined;
-		this._metric = metric;
+		this._metric = toVal;
 
 		for (let e of elements)
 			this.insert(e);
@@ -208,14 +208,26 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 	// Returns true if the element was successfully inserted
 	// Returns false otherwise
 	insert(value) {
-		let node = this._root;
-
-		while (node) {
-			if (value < this._metric(node)) node = node.leftChild;
-			else if (value >= this._metric(node)) node = node.rightChild;
+		if (!this._root) this._root = new module.exports.Node(value);
+		else {
+			let node = this._root;
+			
+			while (true) {
+				if (this._metric(value) < this._metric(node.value)) {
+					if (!node.leftChild) {
+						node.leftChild = value;
+						break;
+					} else node = node.leftChild;
+				} else if (this._metric(value) >= this._metric(node.value)) {
+					if (!node.rightChild) {
+						node.rightChild = value;
+						break;
+					} else node = node.rightChild;
+				} else return false;
+			}
 		}
 
-		node = new Node(value);
+		return true;
 	}
 
 	// Removes a value from the tree, maintaining order

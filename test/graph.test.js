@@ -65,3 +65,26 @@ Test('The Node class tracks its children', (assert) => {
 	assert.deepEqual(n.children(), [6, 5]);
 	assert.end();
 });
+
+Test('The BinarySearchTree class contructs', (assert) => {
+	let t = new Graph.BinarySearchTree((x) => x);
+	assert.deepEqual(t._root, undefined);
+	assert.deepEqual(t.root, undefined);
+	assert.end();
+});
+
+Test('The BinarySearchTree class contructs with a single element given', (assert) => {
+	let t = new Graph.BinarySearchTree((x) => x, [5]);
+	assert.deepEqual(t.root, new Graph.Node(5));
+	assert.end();
+});
+
+Test('The BinarySearchTree class contructs with multiple elements given', (assert) => {
+	let t = new Graph.BinarySearchTree((x) => x, [5, 6, 7, 2, 9]);
+	assert.deepEqual(t.root.value, 5);
+	assert.deepEqual(t.root.leftChild.value, 2);
+	assert.deepEqual(t.root.rightChild.value, 6);
+	assert.deepEqual(t.root.rightChild.rightChild.value, 7);
+	assert.deepEqual(t.root.rightChild.rightChild.rightChild.value, 9);
+	assert.end();
+});
