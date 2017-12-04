@@ -111,3 +111,14 @@ Test('The BinarySearchTree class can find nodes', (assert) => {
 	assert.deepEqual(t.has({a: 'a', b: 1234}), false);
 	assert.end();
 });
+
+Test('The BinarySearchTree class can find parent nodes', (assert) => {
+	let t = new Graph.BinarySearchTree((x) => x, [5, 'string', 3, 8, 13, {a: 'a', b: 1231}]);
+	assert.deepEqual(t.parent(5), undefined);
+	assert.deepEqual(t.parent(3).value, 5);
+	assert.deepEqual(t.parent(8).value, 5);
+	assert.deepEqual(t.parent(13).value, 8);
+	assert.deepEqual(t.parent(423), false);
+	assert.deepEqual(t.parent('string'), false);
+	assert.end();
+});

@@ -213,16 +213,19 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 			let node = this._root;
 			
 			while (true) {
+				// If the value belongs in the left subtree
 				if (this._metric(value) < this._metric(node.value)) {
 					if (!node.leftChild) {
 						node.leftChild = value;
 						break;
 					} else node = node.leftChild;
+				// If the value belongs in the right subtree
 				} else if (this._metric(value) >= this._metric(node.value)) {
 					if (!node.rightChild) {
 						node.rightChild = value;
 						break;
 					} else node = node.rightChild;
+				// If the metric function is not suitable for the value
 				} else return false;
 			}
 		}
@@ -237,12 +240,15 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 		if (!node) return false;
 
 		while (this._metric(node.value) !== this._metric(value)) {
+			// If the value belongs in the left subtree
 			if (this._metric(value) < this._metric(node.value)) {
 				if (!node.leftChild) return false;
 				else node = node.leftChild;
+			// If the value belongs in the right subtree
 			} else if (this._metric(value) >= this._metric(node.value)) {
 				if (!node.rightChild) return false;
 				else node = node.rightChild;
+			// If the metric function is not suitable for the value
 			} else return false;
 		}
 
@@ -258,9 +264,27 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 	// Returns false if the value does not exist or is undefined
 	search(value) { }
 
-	// Returns the value of the parent of the node with the specified value
-	// Returns false if the node is undefined or has no parent
-	parent(value) { }
+	// Returns the parent of the node with the specified value
+	// Returns undefined if the value matches the root value
+	// Returns false if the value does not exist
+	parent(value) {
+		let node = this._root;
+		if (!node || node.value === value) return undefined;
+
+		while (true) {
+			if (!node) return false;
+			// If the value matches the left child
+			else if (node.leftChild && this._metric(value) === this._metric(node.leftChild.value)) return node;
+			// If the value matches the right child
+			else if (node.rightChild && this._metric(value) === this._metric(node.rightChild.value)) return node;
+			// If the value belongs in the left subtree
+			else if (this._metric(value) < this._metric(node.value)) node = node.leftChild;
+			// If the value belongs in the right subtree
+			else if (this._metric(value) >= this._metric(node.value)) node = node.rightChild;
+			// If the metric function is not suitable for the value
+			else return false;
+		}
+	}
 
 	// Returns a binary search tree representing the left subtree of the specified node
 	// Returns false if there is no left subtree
