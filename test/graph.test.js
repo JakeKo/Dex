@@ -88,3 +88,26 @@ Test('The BinarySearchTree class contructs with multiple elements given', (asser
 	assert.deepEqual(t.root.rightChild.rightChild.rightChild.value, 9);
 	assert.end();
 });
+
+Test('The BinarySearchTree class handles undefined insertions', (assert) => {
+	let t = new Graph.BinarySearchTree((x) => x);
+	assert.deepEqual(t.insert(5), true);
+	assert.deepEqual(t.insert(undefined), false);
+	assert.deepEqual(t.insert('string'), false);
+	assert.deepEqual(t.insert(10), true);
+	assert.deepEqual(t.insert({name: 'Joe', age: 25}), false);
+	assert.deepEqual(t.root.value, 5);
+	assert.deepEqual(t.root.rightChild.value, 10);
+	assert.end();
+});
+
+Test('The BinarySearchTree class can find nodes', (assert) => {
+	let t = new Graph.BinarySearchTree((x) => x, [5, 10, 3, 8, 13, {a: 'a', b: 1231}]);
+	assert.deepEqual(t.has(10), true);
+	assert.deepEqual(t.has(3), true);
+	assert.deepEqual(t.has(93), false);
+	assert.deepEqual(t.has(undefined), false);
+	assert.deepEqual(t.has({a: 'a', b: 1231}), false);
+	assert.deepEqual(t.has({a: 'a', b: 1234}), false);
+	assert.end();
+});

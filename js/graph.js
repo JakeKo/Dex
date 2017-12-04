@@ -191,9 +191,9 @@ module.exports.Node = class Node {
 }
 
 module.exports.BinarySearchTree = class BinarySearchTree {
-	constructor(toVal, elements = new Array()) {
+	constructor(metric, elements = new Array()) {
 		this._root = undefined;
-		this._metric = toVal;
+		this._metric = metric;
 
 		for (let e of elements)
 			this.insert(e);
@@ -230,18 +230,37 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 		return true;
 	}
 
+	// Returns true if there is a node with the given value in the tree
+	// Returns false otherwise
+	has(value) {
+		let node = this._root;
+		if (!node) return false;
+
+		while (this._metric(node.value) !== this._metric(value)) {
+			if (this._metric(value) < this._metric(node.value)) {
+				if (!node.leftChild) return false;
+				else node = node.leftChild;
+			} else if (this._metric(value) >= this._metric(node.value)) {
+				if (!node.rightChild) return false;
+				else node = node.rightChild;
+			} else return false;
+		}
+
+		return true;
+	}
+
 	// Removes a value from the tree, maintaining order
 	// Returns the removed value
 	// Returns false if the value does not exist
-	delete(value) { }
+	delete(value) {	}
 
 	// Returns the index of the sought-for value
 	// Returns false if the value does not exist or is undefined
 	search(value) { }
 
-	// Returns the parent of the specified node
+	// Returns the value of the parent of the node with the specified value
 	// Returns false if the node is undefined or has no parent
-	parent(node) { }
+	parent(value) { }
 
 	// Returns a binary search tree representing the left subtree of the specified node
 	// Returns false if there is no left subtree
