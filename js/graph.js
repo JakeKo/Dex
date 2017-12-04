@@ -203,6 +203,11 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 	get root() {
 		return this._root;
 	}
+	
+	// Sets the root to the given node
+	set root(node) {
+		this._root = node;
+	}
 
 	// Inserts an element in the tree, maintaining order
 	// Returns true if the element was successfully inserted
@@ -233,9 +238,9 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 		return true;
 	}
 
-	// Returns true if there is a node with the given value in the tree
-	// Returns false otherwise
-	has(value) {
+	// Returns the node with the given value in the tree
+	// Returns false if node does not exist
+	get(value) {
 		let node = this._root;
 		if (!node) return false;
 
@@ -252,17 +257,13 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 			} else return false;
 		}
 
-		return true;
+		return node;
 	}
 
 	// Removes a value from the tree, maintaining order
 	// Returns the removed value
 	// Returns false if the value does not exist
 	delete(value) {	}
-
-	// Returns the index of the sought-for value
-	// Returns false if the value does not exist or is undefined
-	search(value) { }
 
 	// Returns the parent of the node with the specified value
 	// Returns undefined if the value matches the root value
@@ -287,19 +288,26 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 	}
 
 	// Returns a binary search tree representing the left subtree of the specified node
-	// Returns false if there is no left subtree
-	// Returns false if the node is undefined
-	leftSubtree(node) { }
+	// Returns false if there is no left subtree or the node is undefined
+	leftSubtree(node) {
+		if (!node || !node.leftChild) return false;
+		let t = new module.exports.BinarySearchTree(this._metric);
+		t.root = node.leftChild;
+		return t;
+	}
 	
 	// Returns a binary search tree representing the right subtree of the specified node
-	// Returns false if there is no right subtree
-	// Returns false if the node is undefined
-	rightSubtree(node) { }
+	// Returns false if there is no right subtree or the node is undefined
+	rightSubtree(node) {
+		if (!node || !node.rightChild) return false;
+		let t = new module.exports.BinarySearchTree(this._metric);
+		t.root = node.rightChild;
+		return t;
+	}
 
-	// Swaps the specified nodes in the tree
-	// Returns false if one or both nodes do not exist in the tree
-	// Returns false if one or both nodes are undefined
-	swapNodes(parent, child) { }
+	// Swaps the nodes with the specified value in the tree
+	// Returns false if one or both nodes do not exist in the tree or are undefined
+	swapNodes(n1, n2) { }
 
 	// Returns an array representing a pre-order traversal
 	preOrderTraversal() { }

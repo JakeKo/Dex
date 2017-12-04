@@ -103,12 +103,12 @@ Test('The BinarySearchTree class handles undefined insertions', (assert) => {
 
 Test('The BinarySearchTree class can find nodes', (assert) => {
 	let t = new Graph.BinarySearchTree((x) => x, [5, 10, 3, 8, 13, {a: 'a', b: 1231}]);
-	assert.deepEqual(t.has(10), true);
-	assert.deepEqual(t.has(3), true);
-	assert.deepEqual(t.has(93), false);
-	assert.deepEqual(t.has(undefined), false);
-	assert.deepEqual(t.has({a: 'a', b: 1231}), false);
-	assert.deepEqual(t.has({a: 'a', b: 1234}), false);
+	assert.deepEqual(t.get(10).value, 10);
+	assert.deepEqual(t.get(3).value, 3);
+	assert.deepEqual(t.get(93), false);
+	assert.deepEqual(t.get(undefined), false);
+	assert.deepEqual(t.get({a: 'a', b: 1231}), false);
+	assert.deepEqual(t.get({a: 'a', b: 1234}), false);
 	assert.end();
 });
 
@@ -120,5 +120,21 @@ Test('The BinarySearchTree class can find parent nodes', (assert) => {
 	assert.deepEqual(t.parent(13).value, 8);
 	assert.deepEqual(t.parent(423), false);
 	assert.deepEqual(t.parent('string'), false);
+	assert.end();
+});
+
+Test('The BinarySearchTree class can calculate right subtrees', (assert) => {
+	let t = new Graph.BinarySearchTree((x) => x, [7, 3, 5, 2, 6, 8, 9, 2, 4]);
+
+	let r1 = t.leftSubtree(t.get(7)).root;
+	let r2 = new Graph.BinarySearchTree((x) => x, [3, 5, 2, 6, 2, 4]).root;
+
+	r1 = t.rightSubtree(t.get(7)).root;
+	r2 = new Graph.BinarySearchTree((x) => x, [8, 9]).root;
+
+	assert.deepEqual(r1.value, 8);
+	assert.deepEqual(r1, r2);
+	assert.deepEqual(r1.rightChild.value, 9);
+	assert.deepEqual(r1.rightChild, r2.rightChild);
 	assert.end();
 });
