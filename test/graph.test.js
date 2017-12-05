@@ -138,3 +138,11 @@ Test('The BinarySearchTree class can calculate right subtrees', (assert) => {
 	assert.deepEqual(r1.rightChild, r2.rightChild);
 	assert.end();
 });
+
+Test('The BinarySearchTree class can traverse nodes', (assert) => {
+	let t = new Graph.BinarySearchTree((x) => x, [7, 3, 5, 2, 6, 8, 9, 2, 4]);
+	assert.deepEqual(t.preOrderTraversal(), [7, 3, 2, 2, 5, 4, 6, 8, 9]);
+	assert.deepEqual(t.inOrderTraversal(), [2, 2, 3, 4, 5, 6, 7, 8, 9]);
+	assert.deepEqual(t.postOrderTraversal(), [2, 2, 4, 6, 5, 3, 9, 8, 7]);
+	assert.end();
+});

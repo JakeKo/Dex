@@ -310,11 +310,50 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 	swapNodes(n1, n2) { }
 
 	// Returns an array representing a pre-order traversal
-	preOrderTraversal() { }
+	preOrderTraversal() {
+		let result = new Array();
+
+		function traverse(node) {
+			if (node) {
+				result.push(node.value);
+				traverse(node.leftChild);
+				traverse(node.rightChild);
+			}
+		}
+
+		traverse(this.root);
+		return result;
+	}
 	
 	// Returns an array representing an in-order traversal
-	inOrderTraversal() { }
+	inOrderTraversal() {
+		let result = new Array();
+
+		function traverse(node) {
+			if (node) {
+				traverse(node.leftChild);
+				result.push(node.value);
+				traverse(node.rightChild);
+			}
+		}
+
+		traverse(this.root);
+		return result;
+	}
 
 	// Returns an array representing a post-order traversal
-	postOrderTraversal() { }
+	postOrderTraversal() {
+		let result = new Array();
+
+		function traverse(node) {
+			if (node) {
+				traverse(node.leftChild);
+				traverse(node.rightChild);
+				result.push(node.value);
+			}
+		}
+
+		traverse(this.root);
+		return result;
+	}
 }
