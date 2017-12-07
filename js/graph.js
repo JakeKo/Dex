@@ -239,7 +239,7 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 	}
 
 	// Returns the node with the given value in the tree
-	// Returns false if node does not exist
+	// Returns false if the node does not exist
 	get(value) {
 		let node = this._root;
 		if (!node) return false;
@@ -261,18 +261,56 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 	}
 
 	// Removes a value from the tree, maintaining order
-	// Returns the removed value
+	// Returns true if successful
 	// Returns false if the value does not exist
-	delete(value) {	}
+	delete(value) {
+		let replacer = undefined;
+		let node = this.get(value);
+		if (!node) return false;
+		
+		if (node.leftChild) {
+			// Replacer should be the right-most child of the left subtree
+			replacer = replacer.leftChild;
+			while (replacer.rightChild) replacer = replacer.rightChild;
+
+			node.value = replacer.value;
+			if (!replacer.leftChild) this.parent(replacer.value).rightChild = undefined;
+			else {
+				replacer.value = replacer.leftChild.value;
+				replacer.rightChild = replacer.leftChild.rightChild;
+				replacer.leftChild = replacer.leftChild.leftChild;
+			}
+		} else if (node.rightChild) {
+			// Replacer should be the left-most child of the right subtree
+			replacer = replacer.rightChild;
+			while (replacer.leftChild) replacer = replacer.leftChild;
+			
+			node.value = replacer.value;
+			if (!replacer.rightChild) this.parent(replacer.value).leftChild = undefined;
+			else {
+				replacer.value = replacer.rightChild.value;
+				replacer.leftChild = replacer.rightChild.leftChild;
+				replacer.rightChild = replacer.rightChild.rightChild;
+			}
+		} else {
+			let parent = this.parent(node.value);
+			if (parent.leftChild.value === node.value) parent.leftChild = undefined;
+			else if (parent.rightChild.value === node.value) parent.rightChild = undefined;
+		}
+
+		return true;
+	}
 
 	// Returns the parent of the node with the specified value
 	// Returns undefined if the value matches the root value
 	// Returns false if the value does not exist
 	parent(value) {
 		let node = this._root;
+		// Check if the node is undefined before trying to access value
 		if (!node || node.value === value) return undefined;
 
 		while (true) {
+			// If the node is undefined
 			if (!node) return false;
 			// If the value matches the left child
 			else if (node.leftChild && this._metric(value) === this._metric(node.leftChild.value)) return node;
@@ -292,6 +330,8 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 	leftSubtree(node) {
 		if (!node || !node.leftChild) return false;
 		let t = new module.exports.BinarySearchTree(this._metric);
+		
+		// The left child of the given node contains all of the other nodes in the left subtree
 		t.root = node.leftChild;
 		return t;
 	}
@@ -301,20 +341,18 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 	rightSubtree(node) {
 		if (!node || !node.rightChild) return false;
 		let t = new module.exports.BinarySearchTree(this._metric);
+
+		// The right child of the given node contains all of the other nodes in the right subtree
 		t.root = node.rightChild;
 		return t;
 	}
-
-	// Swaps the nodes with the specified value in the tree
-	// Returns false if one or both nodes do not exist in the tree or are undefined
-	swapNodes(n1, n2) { }
 
 	// Returns an array representing a pre-order traversal
 	preOrderTraversal() {
 		let result = new Array();
 
 		function traverse(node) {
-			if (node) {
+			if (node && (node.value || node.leftChild || node.rightChild)) {
 				result.push(node.value);
 				traverse(node.leftChild);
 				traverse(node.rightChild);
@@ -330,7 +368,7 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 		let result = new Array();
 
 		function traverse(node) {
-			if (node) {
+			if (node && (node.value || node.leftChild || node.rightChild)) {
 				traverse(node.leftChild);
 				result.push(node.value);
 				traverse(node.rightChild);
@@ -346,7 +384,7 @@ module.exports.BinarySearchTree = class BinarySearchTree {
 		let result = new Array();
 
 		function traverse(node) {
-			if (node) {
+			if (node && (node.value || node.leftChild || node.rightChild)) {
 				traverse(node.leftChild);
 				traverse(node.rightChild);
 				result.push(node.value);

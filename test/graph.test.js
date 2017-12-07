@@ -112,6 +112,18 @@ Test('The BinarySearchTree class can find nodes', (assert) => {
 	assert.end();
 });
 
+Test('The BinarySearchTree class can remove nodes', (assert) => {
+	let t = new Graph.BinarySearchTree((x) => x, [5, 10, 3, 8, 13, 12, 9, 234, 7]);
+	assert.deepEqual(t.delete(3), true);
+	assert.deepEqual(t.delete(9), true);
+	assert.deepEqual(t.delete(93), false);
+	assert.deepEqual(t.delete(undefined), false);
+	assert.deepEqual(t.delete({a: 'a', b: 1231}), false);
+	assert.deepEqual(t.delete({a: 'a', b: 1234}), false);
+	assert.deepEqual(t.inOrderTraversal(), [5, 7, 8, 10, 12, 13, 234])
+	assert.end();
+});
+
 Test('The BinarySearchTree class can find parent nodes', (assert) => {
 	let t = new Graph.BinarySearchTree((x) => x, [5, 'string', 3, 8, 13, {a: 'a', b: 1231}]);
 	assert.deepEqual(t.parent(5), undefined);
