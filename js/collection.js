@@ -52,26 +52,27 @@ module.exports.Matrix = class Matrix {
 	isEnumerated(enums) { }
 }
 
-module.exports.Heap = class Heap {
-	constructor(metric, elements) { }
-
-	insert(value) { }
-
-	delete(value) { }
-
-	heapifyDown(index) { }
-
-	heapifyUp(index) { }
-}
-
 module.exports.PriorityQueue = class PriorityQueue {
-	constructor(metric, elements) { }
+	constructor(comp, list) {
+		this.heap = new Heap(comp);
 
-	peek() { }
+		for (let item of list)
+			this.heap.insert(item);
+	}
 
-	enqueue(value) { }
+	peek() {
+		return this.heap.list[0];
+	}
 
-	dequeue() { }
+	enqueue(value) {
+		this.heap.insert(value);
+	}
 
-	delete() { }
+	dequeue() {
+		return this.heap.remove(this.peek());
+	}
+
+	delete(value) {
+		this.heap.remove(value);
+	}
 }
