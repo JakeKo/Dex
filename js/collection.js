@@ -51,28 +51,3 @@ module.exports.Matrix = class Matrix {
 	// Returns true if the matrix's elements are completely described by the elements in the specified array
 	isEnumerated(enums) { }
 }
-
-module.exports.PriorityQueue = class PriorityQueue {
-	constructor(comp, list) {
-		this.heap = new Heap(comp);
-
-		for (let item of list)
-			this.heap.insert(item);
-	}
-
-	peek() {
-		return this.heap.list[0];
-	}
-
-	enqueue(value) {
-		this.heap.insert(value);
-	}
-
-	dequeue() {
-		return this.heap.remove(this.peek());
-	}
-
-	delete(value) {
-		this.heap.remove(value);
-	}
-}
