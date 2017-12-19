@@ -16,9 +16,11 @@ Array.prototype.swap = function swap(first, second) {
 	this[second] = temp;
 }
 
-Array.prototype.indexOf = function indexOf(value) {
-	for (let i = 0; i < this.length; i++)
-		if (this[i] === value) return i;
+Array.prototype.remove = function remove(value) {
+	let index = this.indexOf(value);
 
-	return -1;
+	if (index >= 0) {
+		this.splice(index, 1);
+		return true;
+	} else return false;
 }
