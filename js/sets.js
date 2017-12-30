@@ -5,6 +5,8 @@ module.exports = class Sets {
 		s2.forEach(item => {
 			s.add(item);
 		});
+
+		return s;
 	}
 
 	static intersection(s1, s2) {
@@ -13,6 +15,8 @@ module.exports = class Sets {
 		s1.forEach(item => {
 			if (s2.has(item)) s.add(item);
 		});
+
+		return s;
 	}
 
 	static exclusion(s1, s2) {
@@ -22,6 +26,8 @@ module.exports = class Sets {
 			if (s.has(item)) s.delete(item);
 			else s.add(item);
 		});
+
+		return s;
 	}
 
 	static difference(s1, s2) {
@@ -30,5 +36,7 @@ module.exports = class Sets {
 		s2.forEach(item => {
 			s.delete(item);
 		});
+
+		return s;
 	}
 }
