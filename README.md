@@ -9,4 +9,3 @@ AVL Tree
 Red-Black Tree
 Counter-based Binary Search Tree
 Matrix
-Sets
