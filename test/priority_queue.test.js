@@ -1,7 +1,5 @@
 var Test = require('tape');
-var TapSpec = require('tap-spec');
 var PriorityQueue = require('../js/priority_queue.js');
-Test.createStream().pipe(TapSpec()).pipe(process.stdout);
 
 Test('The PriorityQueue class constructs with no parameters', (assert) => {
 	let p = new PriorityQueue();

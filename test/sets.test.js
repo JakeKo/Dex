@@ -1,6 +1,4 @@
 var Test = require('tape');
-var TapSpec = require('tap-spec');
-Test.createStream().pipe(TapSpec()).pipe(process.stdout);
 var Sets = require('../js/sets.js');
 
 // All sets are identical in the eyes of deepEqual

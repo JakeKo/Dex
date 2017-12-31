@@ -1,7 +1,5 @@
 var Test = require('tape');
-var TapSpec = require('tap-spec');
 var Heap = require('../js/heap.js');
-Test.createStream().pipe(TapSpec()).pipe(process.stdout);
 
 Test('The Heap class constructs with no parameters', (assert) => {
 	let h = new Heap();

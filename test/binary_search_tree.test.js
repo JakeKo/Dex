@@ -1,6 +1,4 @@
 var Test = require('tape');
-var TapSpec = require('tap-spec');
-Test.createStream().pipe(TapSpec()).pipe(process.stdout);
 var BinarySearchTree = require('../js/binary_search_tree.js');
 
 Test('The BinarySearchTree class contructs', (assert) => {

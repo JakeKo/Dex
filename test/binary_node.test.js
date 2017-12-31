@@ -1,6 +1,4 @@
 var Test = require('tape');
-var TapSpec = require('tap-spec');
-Test.createStream().pipe(TapSpec()).pipe(process.stdout);
 var BinaryNode = require('../js/binary_node.js');
 
 Test('The Node class instantitates with no arguments', (assert) => {
