@@ -17,6 +17,7 @@ Test('The BinarySearchTree class contructs', (assert) => {
 Test('The BinarySearchTree class contructs with a single element given', (assert) => {
 	let t = new BinarySearchTree(DEFAULT_COMP, [5]);
 	assert.deepEqual(t.root.value, 5);
+	assert.deepEqual(t.root.count, 1);
 	assert.end();
 });
 
@@ -27,6 +28,27 @@ Test('The BinarySearchTree class contructs with multiple elements given', (asser
 	assert.deepEqual(t.root.rightChild.value, 6);
 	assert.deepEqual(t.root.rightChild.rightChild.value, 7);
 	assert.deepEqual(t.root.rightChild.rightChild.rightChild.value, 9);
+	assert.end();
+});
+
+Test('The BinarySearchTree class handles duplicate insertions', (assert) => {
+	let t = new BinarySearchTree(DEFAULT_COMP, [5, 5, 5, 5, 5, 5, 5]);
+	assert.deepEqual(t.root.value, 5);
+	assert.deepEqual(t.root.count, 7);
+	assert.end();
+});
+
+Test('The BinarySearchTree class handles duplicate deletions', (assert) => {
+	let t = new BinarySearchTree(DEFAULT_COMP, [5, 5, 5]);
+	assert.deepEqual(t.root.value, 5);
+	assert.deepEqual(t.root.count, 3);
+	assert.deepEqual(t.delete(5), true);
+	assert.deepEqual(t.root.count, 2);
+	assert.deepEqual(t.delete(5), true);
+	assert.deepEqual(t.root.count, 1);
+	assert.deepEqual(t.delete(5), true);
+	assert.deepEqual(t.root, undefined);
+	assert.deepEqual(t.delete(5), false);
 	assert.end();
 });
 
@@ -94,8 +116,8 @@ Test('The BinarySearchTree class can calculate right subtrees', (assert) => {
 
 Test('The BinarySearchTree class can traverse nodes', (assert) => {
 	let t = new BinarySearchTree(DEFAULT_COMP, [7, 3, 5, 2, 6, 8, 9, 2, 4]);
-	assert.deepEqual(t.preOrderTraversal(), [7, 3, 2, 5, 4, 6, 8, 9]);
-	assert.deepEqual(t.inOrderTraversal(), [2, 3, 4, 5, 6, 7, 8, 9]);
-	assert.deepEqual(t.postOrderTraversal(), [2, 4, 6, 5, 3, 9, 8, 7]);
+	assert.deepEqual(t.preOrderTraversal(), [7, 3, 2, 2, 5, 4, 6, 8, 9]);
+	assert.deepEqual(t.inOrderTraversal(), [2, 2, 3, 4, 5, 6, 7, 8, 9]);
+	assert.deepEqual(t.postOrderTraversal(), [2, 2, 4, 6, 5, 3, 9, 8, 7]);
 	assert.end();
 });
