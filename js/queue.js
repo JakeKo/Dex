@@ -1,30 +1,33 @@
-var DEFAULT_COMP = (a, b) => {
-	if (a < b) return -1;
-	else if (a === b) return 0;
-	else if (a > b) return 1;
-	else return false;
-};
-
-module.exports = class PriorityQueue {
-	constructor(comp = DEFAULT_COMP, list = new Array()) {
-		this.heap = new Heap(comp, list);
+module.exports = class Queue {
+	constructor(list = new Array()) {
+		this._list = list.slice()
 	}
 
+	// Returns the underlying list of elements in the queue
+	get list() {
+		return this._list;
+	}
+
+	// Returns the next element in the queue without removing it
 	peek() {
-		return this.heap.list[0];
+		return this._list[0];
 	}
 
+	// Adds an element to the end of the queue
 	enqueue(value) {
-		this.heap.insert(value);
+		this._list.push(value);
 	}
 
+	// Returns the next element in the queue
 	dequeue() {
-		let result = this.peek();
-		this.delete(result);
-		return result;
+		return this._list.splice(0, 1);
 	}
 
-	delete(value) {
-		this.heap.remove(value);
+	// Deletes the specified value from the queue the specified number of times
+	delete(value, count = 1) {
+		for (let i = 0; i < count; i++) {
+			let index = this._list.indexOf(value);
+			if (index >= 0 && index < this._list.length) this._list.splice(index, 1);
+		}
 	}
 }
