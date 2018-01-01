@@ -3,10 +3,15 @@ Dex is web framework that I am developing in my free time which implements your 
 
 ### TODO
 Undirected Graph
+
 Directed Graph
+
 AVL Tree
+
 2-3 Tree
+
 Red-Black Tree
-Counter-based Binary Search Tree
+
 Matrix
+
 Sorting Algorithms
