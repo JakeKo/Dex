@@ -126,23 +126,22 @@ module.exports = class BinarySearchTree {
 	// Returns undefined if the value matches the root value
 	// Returns false if the value does not exist
 	parent(value) {
-		let node = this._root;
-		// Check if the root is undefined or is the matching node
-		if (!node || this._comp(value, node) === 0) return undefined;
+		let node = this._root, parent = undefined;
 
 		while (true) {
 			// If the node is undefined
 			if (!node) return false;
-			// If the value matches the left child
-			else if (node.leftChild && this._comp(value, node.leftChild) === 0) return node;
-			// If the value matches the right child
-			else if (node.rightChild && this._comp(value, node.rightChild) === 0) return node;
-			// If the value belongs in the left subtree
-			else if (this._comp(value, node) === -1) node = node.leftChild;
-			// If the value belongs in the right subtree
-			else if (this._comp(value, node) === 1) node = node.rightChild;
-			// If the comp function is not suitable for the value
-			else return false;
+			// The node matches the given value
+			else if (this._comp(value, node) === 0) return parent;
+			else {
+				parent = node;
+				// If the value belongs in the left subtree
+				if (this._comp(value, node) === -1) node = node.leftChild;
+				// If the value belongs in the right subtree
+				else if (this._comp(value, node) === 1) node = node.rightChild;
+				// If the comp function is not suitable for the value
+				else return false;
+			}
 		}
 	}
 
