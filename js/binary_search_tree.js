@@ -1,9 +1,16 @@
 var BinaryNode = require('./binary_node.js')
+var DEFAULT_COMP = (a, b) => {
+	if (a < b) return -1;
+	else if (a === b) return 0;
+	else if (a >= b) return 1;
+	else return false;
+};
 
 module.exports = class BinarySearchTree {
-	constructor(metric, elements = new Array()) {
+	constructor(comp = DEFAULT_COMP, elements = new Array()) {
 		this._root = undefined;
-		this._metric = metric;
+		// In practical application, the comp function is only used when comparing a raw value to a node value
+		this._comp = (value, node) => comp(value, node.value);
 
 		for (let e of elements)
 			this.insert(e);
@@ -29,18 +36,22 @@ module.exports = class BinarySearchTree {
 			
 			while (true) {
 				// If the value belongs in the left subtree
-				if (this._metric(value) < this._metric(node.value)) {
+				if (this._comp(value, node) === -1) {
 					if (!node.leftChild) {
 						node.leftChild = value;
 						break;
 					} else node = node.leftChild;
+				// If the value matches the current node
+				} else if (this._comp(value, node) === 0) {
+					// node.count++;
+					break;
 				// If the value belongs in the right subtree
-				} else if (this._metric(value) >= this._metric(node.value)) {
+				} else if (this._comp(value, node) === 1) {
 					if (!node.rightChild) {
 						node.rightChild = value;
 						break;
 					} else node = node.rightChild;
-				// If the metric function is not suitable for the value
+				// If the comp function is not suitable for the value
 				} else return false;
 			}
 		}
@@ -54,16 +65,16 @@ module.exports = class BinarySearchTree {
 		let node = this._root;
 		if (!node) return false;
 
-		while (this._metric(node.value) !== this._metric(value)) {
+		while (this._comp(value, node) !== 0) {
 			// If the value belongs in the left subtree
-			if (this._metric(value) < this._metric(node.value)) {
+			if (this._comp(value, node) === -1) {
 				if (!node.leftChild) return false;
 				else node = node.leftChild;
 			// If the value belongs in the right subtree
-			} else if (this._metric(value) >= this._metric(node.value)) {
+			} else if (this._comp(value, node) === 1) {
 				if (!node.rightChild) return false;
 				else node = node.rightChild;
-			// If the metric function is not suitable for the value
+			// If the comp function is not suitable for the value
 			} else return false;
 		}
 
@@ -116,21 +127,21 @@ module.exports = class BinarySearchTree {
 	// Returns false if the value does not exist
 	parent(value) {
 		let node = this._root;
-		// Check if the node is undefined before trying to access value
-		if (!node || node.value === value) return undefined;
+		// Check if the root is undefined or is the matching node
+		if (!node || this._comp(value, node) === 0) return undefined;
 
 		while (true) {
 			// If the node is undefined
 			if (!node) return false;
 			// If the value matches the left child
-			else if (node.leftChild && this._metric(value) === this._metric(node.leftChild.value)) return node;
+			else if (node.leftChild && this._comp(value, node.leftChild) === 0) return node;
 			// If the value matches the right child
-			else if (node.rightChild && this._metric(value) === this._metric(node.rightChild.value)) return node;
+			else if (node.rightChild && this._comp(value, node.rightChild) === 0) return node;
 			// If the value belongs in the left subtree
-			else if (this._metric(value) < this._metric(node.value)) node = node.leftChild;
+			else if (this._comp(value, node) === -1) node = node.leftChild;
 			// If the value belongs in the right subtree
-			else if (this._metric(value) >= this._metric(node.value)) node = node.rightChild;
-			// If the metric function is not suitable for the value
+			else if (this._comp(value, node) === 1) node = node.rightChild;
+			// If the comp function is not suitable for the value
 			else return false;
 		}
 	}
@@ -139,7 +150,7 @@ module.exports = class BinarySearchTree {
 	// Returns false if there is no left subtree or the node is undefined
 	leftSubtree(node) {
 		if (!node || !node.leftChild) return false;
-		let t = new BinarySearchTree(this._metric);
+		let t = new BinarySearchTree(this._comp);
 		
 		// The left child of the given node contains all of the other nodes in the left subtree
 		t.root = node.leftChild;
@@ -150,7 +161,7 @@ module.exports = class BinarySearchTree {
 	// Returns false if there is no right subtree or the node is undefined
 	rightSubtree(node) {
 		if (!node || !node.rightChild) return false;
-		let t = new BinarySearchTree(this._metric);
+		let t = new BinarySearchTree(this._comp);
 
 		// The right child of the given node contains all of the other nodes in the right subtree
 		t.root = node.rightChild;
