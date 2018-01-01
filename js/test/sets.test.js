@@ -1,5 +1,5 @@
 var Test = require('tape');
-var Sets = require('../js/sets.js');
+var Sets = require('../src/sets.js');
 
 // All sets are identical in the eyes of deepEqual
 // This ensures element-wise identicality
