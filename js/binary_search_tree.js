@@ -9,8 +9,8 @@ var DEFAULT_COMP = (a, b) => {
 module.exports = class BinarySearchTree {
 	constructor(comp = DEFAULT_COMP, elements = new Array()) {
 		this._root = undefined;
-		// In practical application, the comp function is only used when comparing a raw value to a node value
-		this._comp = (value, node) => comp(value, node.value);
+		// The comp function is only used when comparing a raw value to a node value
+		this._comp = (value, node) => !node ? false : comp(value, node.value);
 
 		for (let e of elements)
 			this.insert(e);
@@ -33,26 +33,28 @@ module.exports = class BinarySearchTree {
 		if (!this._root) this._root = new BinaryNode(value);
 		else {
 			let node = this._root;
+			let equal = this._comp(value, node);
 			
 			while (true) {
 				// If the value belongs in the left subtree
-				if (this._comp(value, node) === -1) {
+				if (equal === -1) {
 					if (!node.leftChild) {
 						node.leftChild = value;
 						break;
 					} else node = node.leftChild;
 				// If the value matches the current node
-				} else if (this._comp(value, node) === 0) {
+				} else if (equal === 0) {
 					node.count++;
 					break;
 				// If the value belongs in the right subtree
-				} else if (this._comp(value, node) === 1) {
+				} else if (equal === 1) {
 					if (!node.rightChild) {
 						node.rightChild = value;
 						break;
 					} else node = node.rightChild;
-				// If the comp function is not suitable for the value
 				} else return false;
+
+				equal = this._comp(value, node);
 			}
 		}
 
@@ -63,19 +65,20 @@ module.exports = class BinarySearchTree {
 	// Returns false if the node does not exist
 	get(value) {
 		let node = this._root;
-		if (!node) return false;
+		let equal = this._comp(value, node);
 
-		while (this._comp(value, node) !== 0) {
+		while (equal !== 0) {
 			// If the value belongs in the left subtree
-			if (this._comp(value, node) === -1) {
+			if (equal === -1) {
 				if (!node.leftChild) return false;
 				else node = node.leftChild;
 			// If the value belongs in the right subtree
-			} else if (this._comp(value, node) === 1) {
+			} else if (equal === 1) {
 				if (!node.rightChild) return false;
 				else node = node.rightChild;
-			// If the comp function is not suitable for the value
 			} else return false;
+
+			equal = this._comp(value, node);
 		}
 
 		return node;
@@ -147,22 +150,21 @@ module.exports = class BinarySearchTree {
 	// Returns undefined if the value matches the root value
 	// Returns false if the value does not exist
 	parent(value) {
-		let node = this._root, parent = undefined;
+		let node = this._root;
+		let parent = undefined;
 
 		while (true) {
-			// If the node is undefined
-			if (!node) return false;
-			// The node matches the given value
-			else if (this._comp(value, node) === 0) return parent;
-			else {
+			// If the value belongs in the left subtree
+			if (this._comp(value, node) === -1) {
 				parent = node;
-				// If the value belongs in the left subtree
-				if (this._comp(value, node) === -1) node = node.leftChild;
-				// If the value belongs in the right subtree
-				else if (this._comp(value, node) === 1) node = node.rightChild;
-				// If the comp function is not suitable for the value
-				else return false;
-			}
+				node = node.leftChild;
+			// If the value belongs in the right subtree
+			} else if (this._comp(value, node) === 1) {
+				parent = node;
+				node = node.rightChild;
+			// The node matches the given value
+			} else if (this._comp(value, node) === 0) return parent;
+			else return false;
 		}
 	}
 
@@ -171,8 +173,7 @@ module.exports = class BinarySearchTree {
 	leftSubtree(node) {
 		if (!node || !node.leftChild) return false;
 		let t = new BinarySearchTree(this._comp);
-		
-		// The left child of the given node contains all of the other nodes in the left subtree
+		// The left child contains all nodes in the left subtree
 		t.root = node.leftChild;
 		return t;
 	}
@@ -182,8 +183,7 @@ module.exports = class BinarySearchTree {
 	rightSubtree(node) {
 		if (!node || !node.rightChild) return false;
 		let t = new BinarySearchTree(this._comp);
-
-		// The right child of the given node contains all of the other nodes in the right subtree
+		// The right child contains all nodes in the right subtree
 		t.root = node.rightChild;
 		return t;
 	}
