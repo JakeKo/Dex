@@ -3,6 +3,7 @@ module.exports = class BinaryNode {
 		this._value = v;
 		this._leftChild = l;
 		this._rightChild = r;
+		this._count = 1;
 	}
 	
 	// Returns the value of the node
@@ -20,6 +21,11 @@ module.exports = class BinaryNode {
 		return this._rightChild;
 	}
 
+	// Returns the count of identical values of the node
+	get count() {
+		return this._count;
+	}
+
 	// Sets the value of the node to the specified value
 	set value(v) {
 		this._value = v;
@@ -33,6 +39,11 @@ module.exports = class BinaryNode {
 	// Sets the right child of the node to the specified object
 	set rightChild(r) {
 		this._rightChild = new BinaryNode(r);
+	}
+
+	// Sets the count of identical values of the node
+	set count(c) {
+		this._count = c;
 	}
 	
 	// Returns and an array containing the children of the node

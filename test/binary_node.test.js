@@ -5,7 +5,7 @@ Test('The Node class instantitates with no arguments', (assert) => {
 	let n = new BinaryNode();
 	assert.deepEqual(n.value, undefined);
 	assert.deepEqual(n.leftChild, undefined);
-	assert.deepEqual(n.RightChild, undefined);
+	assert.deepEqual(n.rightChild, undefined);
 	assert.end();
 });
 
@@ -61,5 +61,15 @@ Test('The Node class handles recursive values', (assert) => {
 Test('The Node class tracks its children', (assert) => {
 	let n = new BinaryNode(7, 6, 5);
 	assert.deepEqual(n.children(), [6, 5]);
+	assert.end();
+});
+
+Test('The Node class tracks its count', (assert) => {
+	let n = new BinaryNode(5);
+	assert.deepEqual(n.count, 1);
+	n.count++;
+	assert.deepEqual(n.count, 2);
+	n.count = 7;
+	assert.deepEqual(n.count, 7);
 	assert.end();
 });
