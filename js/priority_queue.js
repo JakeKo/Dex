@@ -1,7 +1,7 @@
 var Heap = require('./heap.js')
 
 module.exports = class PriorityQueue {
-	constructor(comp, list) {
+	constructor(comp, list = new Array()) {
 		this.heap = new Heap(comp, list);
 	}
 

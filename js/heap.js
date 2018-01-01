@@ -1,10 +1,16 @@
 require('./utility.js');
+var DEFAULT_COMP = (a, b) => {
+	if (a < b) return -1;
+	else if (a === b) return 0;
+	else if (a >= b) return 1;
+	else return false;
+};
 
 module.exports = class Heap {
-	constructor(comp = (x, y) => x < y, list = new Array()) {
+	constructor(comp = DEFAULT_COMP, list = new Array()) {
 		this._list = new Array();
 		// Converts the provided comparator to be index-based for simplicity
-		this._comp = (i, j) => comp(this._list[i], this._list[j]);
+		this._comp = (i, j) => !this._list[i] || !this._list[j] ? false : comp(this._list[i], this._list[j]);
 
 		for (let item of list)
 			this.insert(item);
@@ -39,15 +45,15 @@ module.exports = class Heap {
 	
 		if (!this._list[l] && !this._list[r]) return false;
 		else if (this._list[l] && !this._list[r]) return l;
-		else if (this._list[l] && this._list[r]) return this._comp(l, r) ? l : r;
+		else if (this._list[l] && this._list[r]) return this._comp(l, r) < 0 ? l : r;
 	}
 
 	// Swaps a node downard until the heap is valid
 	_heapifyDown(i) {
 		let child = this._matchChild(i);
 		
-		// While there is a child and the child matches the condition to swap
-		while (this._list[child] && this._comp(child, i)) {
+		// While there is a child that matches the condition to swap
+		while (this._comp(child, i) < 0) {
 			this._list.swap(i, child);
 			i = child;
 			child = this._matchChild(i);
@@ -59,7 +65,7 @@ module.exports = class Heap {
 		let parent = this._parent(i);
 		
 		// While there is a parent and the parent matches the condition to swap
-		while (this._list[parent] && this._comp(i, parent)) {
+		while (this._comp(i, parent) < 0) {
 		  this._list.swap(i, parent);
 		  i = parent;
 		  parent = this._parent(i);
