@@ -1,6 +1,0 @@
-C:\wamp64\www\Dex\C#\Dex\Dex\bin\Debug\Dex.exe.config
-C:\wamp64\www\Dex\C#\Dex\Dex\bin\Debug\Dex.exe
-C:\wamp64\www\Dex\C#\Dex\Dex\bin\Debug\Dex.pdb
-C:\wamp64\www\Dex\C#\Dex\Dex\obj\Debug\Dex.csprojResolveAssemblyReference.cache
-C:\wamp64\www\Dex\C#\Dex\Dex\obj\Debug\Dex.exe
-C:\wamp64\www\Dex\C#\Dex\Dex\obj\Debug\Dex.pdb
