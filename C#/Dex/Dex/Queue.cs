@@ -2,39 +2,40 @@
 
 namespace Dex {
 	public class Queue<T> {
-		public List<T> Elements { get; set; }
+		public List<T> List { get; set; }
 
 		public Queue(List<T> list = null) {
-			if (list != null)
-				this.Elements = new List<T>(list);
-			else
-				this.Elements = new List<T>(0);
+			this.List = list == null ? new List<T>() : new List<T>(list);
 		}
 
 		// Returns the next element in the queue without removing it
 		public T Peek() {
-			return this.Elements[0];
+			return this.List[0];
 		}
 
 		// Adds an element to the end of the queue
 		public void Enqueue(T value) {
-			this.Elements.Add(value);
+			this.List.Add(value);
 		}
 
 		// Returns the next element in the queue
 		public T Dequeue() {
-			var value = this.Elements[0];
-			this.Elements.RemoveAt(0);
-			return value;
+			if (this.List.Count > 0) {
+				var value = this.List[0];
+				this.List.RemoveAt(0);
+				return value;
+			} else {
+				return default(T);
+			}
 		}
 
 		// Deletes the specified value from the queue the specified number of times
 		public void Delete(T value, int count = 1) {
 			for (int i = 0; i < count; i++) {
-				int index = this.Elements.IndexOf(value);
+				int index = this.List.IndexOf(value);
 
-				if (index >= 0 && index < this.Elements.Count)
-					this.Elements.RemoveAt(index);
+				if (index >= 0 && index < this.List.Count)
+					this.List.RemoveAt(index);
 			}
 		}
 	}
