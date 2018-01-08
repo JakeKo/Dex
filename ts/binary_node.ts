@@ -1,5 +1,10 @@
 module.exports = class BinaryNode {
-	constructor(v = undefined, l = undefined, r = undefined) {
+	_value: any;
+	_leftChild: BinaryNode;
+	_rightChild: BinaryNode;
+	_count: number;
+
+	constructor(v: any = undefined, l: BinaryNode = undefined, r: BinaryNode = undefined) {
 		this._value = v;
 		this._leftChild = l;
 		this._rightChild = r;
@@ -27,22 +32,22 @@ module.exports = class BinaryNode {
 	}
 
 	// Sets the value of the node to the specified value
-	set value(v) {
+	set value(v: any) {
 		this._value = v;
 	}
 
 	// Sets the left child of the node to the specified object
-	set leftChild(l) {
+	set leftChild(l: any) {
 		this._leftChild = new BinaryNode(l);
 	}
 
 	// Sets the right child of the node to the specified object
-	set rightChild(r) {
+	set rightChild(r: any) {
 		this._rightChild = new BinaryNode(r);
 	}
 
 	// Sets the count of identical values of the node
-	set count(c) {
+	set count(c: number) {
 		this._count = c;
 	}
 	
