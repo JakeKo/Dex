@@ -1,13 +1,11 @@
 {
     "compilerOptions": {
-        "module": "system",
         "noImplicitAny": true,
         "removeComments": true,
-        "preserveConstEnums": true,
 		"outDir": "./js/",
 		"target": "es6",
     },
     "include": [
-        "./ts/*.ts",
+        "./ts/binary_search_tree.ts",
     ]
 }

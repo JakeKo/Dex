@@ -1,106 +1,105 @@
+'use strict';
 var BinaryNode = require('./binary_node.js');
-var DEFAULT_COMP = function (a, b) {
-    if (a < b)
+var DEFAULT_COMP = (a, b) => {
+    if (a < b) {
         return -1;
-    else if (a === b)
+    }
+    else if (a === b) {
         return 0;
-    else if (a > b)
+    }
+    else if (a > b) {
         return 1;
-    else
-        return false;
+    }
 };
-module.exports = (function () {
-    function BinarySearchTree(comp, elements) {
-        if (comp === void 0) { comp = DEFAULT_COMP; }
-        if (elements === void 0) { elements = new Array(); }
-        this._root = undefined;
-        this._comp = function (value, node) { return !node ? false : comp(value, node.value); };
-        for (var _i = 0, elements_1 = elements; _i < elements_1.length; _i++) {
-            var e = elements_1[_i];
+module.exports = class BinarySearchTree {
+    constructor(comp = DEFAULT_COMP, elements = []) {
+        this.root = undefined;
+        this._comp = (value, node) => {
+            const equality = comp(value, node.value);
+            if (equality === undefined) {
+                throw `Provided comparator cannot interpret provided element: ${value}`;
+            }
+            return equality;
+        };
+        for (const e of elements) {
             this.insert(e);
         }
     }
-    Object.defineProperty(BinarySearchTree.prototype, "root", {
-        get: function () {
-            return this._root;
-        },
-        set: function (node) {
-            this._root = node;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    BinarySearchTree.prototype.insert = function (value) {
-        if (!this._root)
-            this._root = new BinaryNode(value);
+    get root() {
+        return this._root;
+    }
+    set root(node) {
+        this._root = node;
+    }
+    insert(value) {
+        let node = this.root;
+        if (node === undefined) {
+            this.root = new BinaryNode(value);
+        }
         else {
-            var node = this._root;
-            var equal = this._comp(value, node);
             while (true) {
-                if (equal === -1) {
-                    if (!node.leftChild) {
+                const equal = this._comp(value, node);
+                if (equal < 0) {
+                    if (node.leftChild === undefined) {
                         node.leftChild = value;
                         break;
                     }
-                    else
+                    else {
                         node = node.leftChild;
+                    }
                 }
                 else if (equal === 0) {
                     node.count++;
                     break;
                 }
-                else if (equal === 1) {
-                    if (!node.rightChild) {
+                else if (equal > 0) {
+                    if (node.rightChild === undefined) {
                         node.rightChild = value;
                         break;
                     }
-                    else
+                    else {
                         node = node.rightChild;
+                    }
                 }
-                else
-                    return false;
-                equal = this._comp(value, node);
             }
         }
         return true;
-    };
-    BinarySearchTree.prototype.get = function (value) {
-        var node = this._root;
-        var equal = this._comp(value, node);
-        while (equal !== 0) {
-            if (equal === -1) {
-                if (!node.leftChild)
-                    return false;
-                else
-                    node = node.leftChild;
+    }
+    get(value) {
+        let node = this.root;
+        while (true) {
+            const equal = this._comp(value, node);
+            if (equal < 0) {
+                node = node.leftChild;
             }
-            else if (equal === 1) {
-                if (!node.rightChild)
-                    return false;
-                else
-                    node = node.rightChild;
+            else if (equal === 0) {
+                return node;
             }
-            else
-                return false;
-            equal = this._comp(value, node);
+            else if (equal > 0) {
+                node = node.rightChild;
+            }
         }
-        return node;
-    };
-    BinarySearchTree.prototype.delete = function (value) {
-        var node = this.get(value);
-        if (!node)
-            return false;
-        else
+    }
+    delete(value) {
+        const node = this.get(value);
+        let replacer = undefined;
+        if (node === undefined) {
+            return undefined;
+        }
+        else {
             node.count--;
+        }
         if (node.count === 0) {
-            if (node.leftChild) {
-                var replacer = replacer.leftChild;
-                while (replacer.rightChild)
+            if (node.leftChild !== undefined) {
+                replacer = node.leftChild;
+                while (replacer.rightChild !== undefined) {
                     replacer = replacer.rightChild;
+                }
                 node.value = replacer.value;
                 node.count = replacer.count;
-                if (!replacer.leftChild)
+                if (replacer.leftChild === undefined) {
                     this.parent(replacer.value).rightChild = undefined;
+                }
                 else {
                     replacer.value = replacer.leftChild.value;
                     replacer.rightChild = replacer.leftChild.rightChild;
@@ -108,14 +107,16 @@ module.exports = (function () {
                     replacer.count = replacer.leftChild.count;
                 }
             }
-            else if (node.rightChild) {
-                var replacer = replacer.rightChild;
-                while (replacer.leftChild)
+            else if (node.rightChild !== undefined) {
+                replacer = node.rightChild;
+                while (replacer.leftChild !== undefined) {
                     replacer = replacer.leftChild;
+                }
                 node.value = replacer.value;
                 node.count = replacer.count;
-                if (!replacer.rightChild)
+                if (replacer.rightChild === undefined) {
                     this.parent(replacer.value).leftChild = undefined;
+                }
                 else {
                     replacer.value = replacer.rightChild.value;
                     replacer.leftChild = replacer.rightChild.leftChild;
@@ -124,87 +125,94 @@ module.exports = (function () {
                 }
             }
             else {
-                var parent_1 = this.parent(node.value);
-                if (!parent_1)
+                const parent = this.parent(node.value);
+                if (parent === undefined) {
                     this._root = undefined;
-                else if (parent_1.leftChild.value === node.value)
-                    parent_1.leftChild = undefined;
-                else if (parent_1.rightChild.value === node.value)
-                    parent_1.rightChild = undefined;
+                }
+                else if (parent.leftChild.value === node.value) {
+                    parent.leftChild = undefined;
+                }
+                else if (parent.rightChild.value === node.value) {
+                    parent.rightChild = undefined;
+                }
             }
         }
         return true;
-    };
-    BinarySearchTree.prototype.parent = function (value) {
-        var node = this._root;
-        var parent = undefined;
+    }
+    parent(value) {
+        let node = this.root;
+        let parent = undefined;
         while (true) {
-            if (this._comp(value, node) === -1) {
+            const equality = this._comp(value, node);
+            if (equality < 0) {
                 parent = node;
                 node = node.leftChild;
             }
-            else if (this._comp(value, node) === 1) {
+            else if (equality === 0) {
+                return parent;
+            }
+            else if (equality > 0) {
                 parent = node;
                 node = node.rightChild;
             }
-            else if (this._comp(value, node) === 0)
-                return parent;
-            else
-                return false;
         }
-    };
-    BinarySearchTree.prototype.leftSubtree = function (node) {
-        if (!node || !node.leftChild)
-            return false;
-        var t = new BinarySearchTree(this._comp);
+    }
+    leftSubtree(node) {
+        if (node === undefined || node.leftChild === undefined) {
+            return undefined;
+        }
+        const t = new BinarySearchTree(this._comp);
         t.root = node.leftChild;
         return t;
-    };
-    BinarySearchTree.prototype.rightSubtree = function (node) {
-        if (!node || !node.rightChild)
-            return false;
-        var t = new BinarySearchTree(this._comp);
+    }
+    rightSubtree(node) {
+        if (node === undefined || node.rightChild === undefined) {
+            return undefined;
+        }
+        const t = new BinarySearchTree(this._comp);
         t.root = node.rightChild;
         return t;
-    };
-    BinarySearchTree.prototype.preOrderTraversal = function () {
-        var result = new Array();
+    }
+    preOrderTraversal() {
+        const result = [];
+        traverse(this.root);
+        return result;
         function traverse(node) {
-            if (node && (node.value || node.leftChild || node.rightChild)) {
-                for (var i = 0; i < node.count; i++)
+            if (node !== undefined && (node.value !== undefined || node.leftChild !== undefined || node.rightChild !== undefined)) {
+                for (let i = 0; i < node.count; i++) {
                     result.push(node.value);
+                }
                 traverse(node.leftChild);
                 traverse(node.rightChild);
             }
         }
+    }
+    inOrderTraversal() {
+        const result = [];
         traverse(this.root);
         return result;
-    };
-    BinarySearchTree.prototype.inOrderTraversal = function () {
-        var result = new Array();
         function traverse(node) {
-            if (node && (node.value || node.leftChild || node.rightChild)) {
+            if (node !== undefined && (node.value !== undefined || node.leftChild !== undefined || node.rightChild !== undefined)) {
                 traverse(node.leftChild);
-                for (var i = 0; i < node.count; i++)
+                for (let i = 0; i < node.count; i++) {
                     result.push(node.value);
+                }
                 traverse(node.rightChild);
             }
         }
+    }
+    postOrderTraversal() {
+        const result = [];
         traverse(this.root);
         return result;
-    };
-    BinarySearchTree.prototype.postOrderTraversal = function () {
-        var result = new Array();
         function traverse(node) {
-            if (node && (node.value || node.leftChild || node.rightChild)) {
+            if (node !== undefined && (node.value !== undefined || node.leftChild !== undefined || node.rightChild !== undefined)) {
                 traverse(node.leftChild);
                 traverse(node.rightChild);
-                for (var i = 0; i < node.count; i++)
+                for (let i = 0; i < node.count; i++) {
                     result.push(node.value);
+                }
             }
         }
-        traverse(this.root);
-        return result;
-    };
-    return BinarySearchTree;
-}());
+    }
+};
