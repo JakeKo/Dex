@@ -1,5 +1,5 @@
 var BinaryNode = require('./binary_node.js')
-var DEFAULT_COMP = (a, b) => {
+var DEFAULT_COMP = (a: number, b: number) => {
 	if (a < b) return -1;
 	else if (a === b) return 0;
 	else if (a > b) return 1;
@@ -7,10 +7,13 @@ var DEFAULT_COMP = (a, b) => {
 };
 
 module.exports = class BinarySearchTree {
+	_root: BinaryNode;
+	_comp: function;
+
 	constructor(comp = DEFAULT_COMP, elements = new Array()) {
 		this._root = undefined;
 		// The comp function is only used when comparing a raw value to a node value
-		this._comp = (value, node) => !node ? false : comp(value, node.value);
+		this._comp = (value: any, node: BinaryNode) => !node ? false : comp(value, node.value);
 
 		for (let e of elements)
 			this.insert(e);
@@ -29,7 +32,7 @@ module.exports = class BinarySearchTree {
 	// Inserts an element in the tree, maintaining order
 	// Returns true if the element was successfully inserted
 	// Returns false otherwise
-	insert(value) {
+	insert(value: any) {
 		if (!this._root) this._root = new BinaryNode(value);
 		else {
 			let node = this._root;
@@ -63,7 +66,7 @@ module.exports = class BinarySearchTree {
 
 	// Returns the node with the given value in the tree
 	// Returns false if the node does not exist
-	get(value) {
+	get(value: any) {
 		let node = this._root;
 		let equal = this._comp(value, node);
 
@@ -87,8 +90,9 @@ module.exports = class BinarySearchTree {
 	// Removes a value from the tree, maintaining order
 	// Returns true if successful
 	// Returns false if the value does not exist
-	delete(value) {
+	delete(value: any) {
 		let node = this.get(value);
+		let replacer = undefined;
 
 		if (!node) return false;
 		else node.count--;
@@ -96,7 +100,7 @@ module.exports = class BinarySearchTree {
 		if (node.count === 0) {
 			if (node.leftChild) {
 				// Replacer should be the right-most child of the left subtree
-				let replacer = replacer.leftChild;
+				replacer = replacer.leftChild;
 				while (replacer.rightChild) replacer = replacer.rightChild;
 	
 				// Swap values
@@ -115,7 +119,7 @@ module.exports = class BinarySearchTree {
 				}
 			} else if (node.rightChild) {
 				// Replacer should be the left-most child of the right subtree
-				let replacer = replacer.rightChild;
+				replacer = replacer.rightChild;
 				while (replacer.leftChild) replacer = replacer.leftChild;
 				
 				// Swap values
@@ -149,7 +153,7 @@ module.exports = class BinarySearchTree {
 	// Returns the parent of the node with the specified value
 	// Returns undefined if the value matches the root value
 	// Returns false if the value does not exist
-	parent(value) {
+	parent(value: any) {
 		let node = this._root;
 		let parent = undefined;
 
@@ -170,7 +174,7 @@ module.exports = class BinarySearchTree {
 
 	// Returns a binary search tree representing the left subtree of the specified node
 	// Returns false if there is no left subtree or the node is undefined
-	leftSubtree(node) {
+	leftSubtree(node: BinaryNode) {
 		if (!node || !node.leftChild) return false;
 		let t = new BinarySearchTree(this._comp);
 		// The left child contains all nodes in the left subtree
@@ -180,7 +184,7 @@ module.exports = class BinarySearchTree {
 	
 	// Returns a binary search tree representing the right subtree of the specified node
 	// Returns false if there is no right subtree or the node is undefined
-	rightSubtree(node) {
+	rightSubtree(node: BinaryNode) {
 		if (!node || !node.rightChild) return false;
 		let t = new BinarySearchTree(this._comp);
 		// The right child contains all nodes in the right subtree
@@ -192,7 +196,7 @@ module.exports = class BinarySearchTree {
 	preOrderTraversal() {
 		let result = new Array();
 
-		function traverse(node) {
+		function traverse(node: BinaryNode) {
 			if (node && (node.value || node.leftChild || node.rightChild)) {
 				// Handle duplicate values
 				for (let i = 0; i < node.count; i++)
@@ -211,7 +215,7 @@ module.exports = class BinarySearchTree {
 	inOrderTraversal() {
 		let result = new Array();
 
-		function traverse(node) {
+		function traverse(node: BinaryNode) {
 			if (node && (node.value || node.leftChild || node.rightChild)) {
 				traverse(node.leftChild);
 
@@ -231,7 +235,7 @@ module.exports = class BinarySearchTree {
 	postOrderTraversal() {
 		let result = new Array();
 
-		function traverse(node) {
+		function traverse(node: BinaryNode) {
 			if (node && (node.value || node.leftChild || node.rightChild)) {
 				traverse(node.leftChild);
 				traverse(node.rightChild);
