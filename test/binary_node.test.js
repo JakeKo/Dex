@@ -1,5 +1,5 @@
 var Test = require('tape');
-var BinaryNode = require('../src/binary_node.js');
+var BinaryNode = require('../js/binary_node.js');
 
 Test('The Node class instantitates with no arguments', (assert) => {
 	let n = new BinaryNode();
