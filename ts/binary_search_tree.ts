@@ -1,7 +1,6 @@
 'use strict';
 
-declare function require(name: string): any;
-var BinaryNode = require('./binary_node.js');
+import { BinaryNode } from './binary_node.js';
 
 var DEFAULT_COMP = (a: number, b: number): number => {
 	if (a < b) {
@@ -13,12 +12,14 @@ var DEFAULT_COMP = (a: number, b: number): number => {
 	}
 };
 
-module.exports = class BinarySearchTree {
+export class BinarySearchTree {
 	private _root: BinaryNode;
+	private _baseComp: (a: number, b: number) => number;
 	private _comp: (value: any, node: BinaryNode) => number;
 
 	constructor(comp: (a: number, b: number) => number = DEFAULT_COMP, elements: any[] = []) {
 		this.root = undefined;
+		this._baseComp = comp;
 		this._comp = (value: any, node: BinaryNode): number => {
 			try {
 				const equality = comp(value, node.value);
@@ -207,7 +208,7 @@ module.exports = class BinarySearchTree {
 		}
 
 		// The left child contains all nodes in the left subtree
-		const t: BinarySearchTree = new BinarySearchTree(this._comp);
+		const t: BinarySearchTree = new BinarySearchTree(this._baseComp);
 		t.root = node.leftChild;
 		return t;
 	}
@@ -220,7 +221,7 @@ module.exports = class BinarySearchTree {
 		}
 		
 		// The right child contains all nodes in the right subtree
-		const t: BinarySearchTree = new BinarySearchTree(this._comp);
+		const t: BinarySearchTree = new BinarySearchTree(this._baseComp);
 		t.root = node.rightChild;
 		return t;
 	}

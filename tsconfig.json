@@ -2,8 +2,12 @@
     "compilerOptions": {
         "noImplicitAny": true,
         "removeComments": true,
-		"outDir": "./js/",
-		"target": "es6",
+		"outDir": "./dist/",
+        "target": "es6",
+        "moduleResolution": "classic",
+        "module": "commonjs",
+        "declaration": true,
+        // "strict": true,
     },
     "include": [
         "./ts/binary_search_tree.ts",
