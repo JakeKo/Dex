@@ -45,7 +45,7 @@ class BinarySearchTree {
             const equal = this._comp(value, node);
             if (equal < 0) {
                 if (node.leftChild === undefined) {
-                    node.leftChild = value;
+                    node.leftChild = new binary_node_js_1.BinaryNode(value);
                     return true;
                 }
                 else {
@@ -58,7 +58,7 @@ class BinarySearchTree {
             }
             else if (equal > 0) {
                 if (node.rightChild === undefined) {
-                    node.rightChild = value;
+                    node.rightChild = new binary_node_js_1.BinaryNode(value);
                     return true;
                 }
                 else {

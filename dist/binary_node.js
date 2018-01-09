@@ -23,10 +23,10 @@ class BinaryNode {
         this._value = v;
     }
     set leftChild(l) {
-        this._leftChild = new BinaryNode(l);
+        this._leftChild = l;
     }
     set rightChild(r) {
-        this._rightChild = new BinaryNode(r);
+        this._rightChild = r;
     }
     set count(c) {
         this._count = c;

@@ -60,7 +60,7 @@ export class BinarySearchTree {
 
 			if (equal < 0) { // If the value belongs in the left subtree
 				if (node.leftChild === undefined) {
-					node.leftChild = value;
+					node.leftChild = new BinaryNode(value);
 					return true;
 				} else {
 					node = node.leftChild;
@@ -70,7 +70,7 @@ export class BinarySearchTree {
 				return true;
 			} else if (equal > 0) { // If the value belongs in the right subtree
 				if (node.rightChild === undefined) {
-					node.rightChild = value;
+					node.rightChild = new BinaryNode(value);
 					return true;
 				} else {
 					node = node.rightChild;

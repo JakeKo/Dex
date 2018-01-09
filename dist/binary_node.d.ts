@@ -1,12 +1,12 @@
 export declare class BinaryNode {
-    _value: any;
-    _leftChild: BinaryNode;
-    _rightChild: BinaryNode;
-    _count: number;
+    private _value;
+    private _leftChild;
+    private _rightChild;
+    private _count;
     constructor(v?: any, l?: BinaryNode, r?: BinaryNode);
     value: any;
-    leftChild: any;
-    rightChild: any;
+    leftChild: BinaryNode;
+    rightChild: BinaryNode;
     count: number;
     children(): BinaryNode[];
 }
