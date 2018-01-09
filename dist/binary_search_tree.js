@@ -1,7 +1,6 @@
 'use strict';
-Object.defineProperty(exports, "__esModule", { value: true });
-const binary_node_js_1 = require("./binary_node.js");
-var DEFAULT_COMP = (a, b) => {
+const BinaryNode = require('./binary_node.js');
+const DEFAULT_COMP = (a, b) => {
     if (a < b) {
         return -1;
     }
@@ -12,7 +11,7 @@ var DEFAULT_COMP = (a, b) => {
         return 1;
     }
 };
-class BinarySearchTree {
+module.exports = class BinarySearchTree {
     constructor(comp = DEFAULT_COMP, elements = []) {
         this.root = undefined;
         this._baseComp = comp;
@@ -38,14 +37,14 @@ class BinarySearchTree {
     insert(value) {
         let node = this.root;
         if (node === undefined) {
-            this.root = new binary_node_js_1.BinaryNode(value);
+            this.root = new BinaryNode(value);
             return true;
         }
         while (true) {
             const equal = this._comp(value, node);
             if (equal < 0) {
                 if (node.leftChild === undefined) {
-                    node.leftChild = new binary_node_js_1.BinaryNode(value);
+                    node.leftChild = new BinaryNode(value);
                     return true;
                 }
                 else {
@@ -58,7 +57,7 @@ class BinarySearchTree {
             }
             else if (equal > 0) {
                 if (node.rightChild === undefined) {
-                    node.rightChild = new binary_node_js_1.BinaryNode(value);
+                    node.rightChild = new BinaryNode(value);
                     return true;
                 }
                 else {
@@ -226,5 +225,4 @@ class BinarySearchTree {
             }
         }
     }
-}
-exports.BinarySearchTree = BinarySearchTree;
+};

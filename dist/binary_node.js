@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class BinaryNode {
+module.exports = class BinaryNode {
     constructor(v = undefined, l = undefined, r = undefined) {
         this._value = v;
         this._leftChild = l;
@@ -34,5 +32,4 @@ class BinaryNode {
     children() {
         return [this._leftChild, this._rightChild];
     }
-}
-exports.BinaryNode = BinaryNode;
+};

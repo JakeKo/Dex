@@ -7,9 +7,9 @@
         "moduleResolution": "classic",
         "module": "commonjs",
         "declaration": true,
-        // "strict": true,
     },
     "include": [
         "./ts/binary_search_tree.ts",
+        "./ts/binary_node.ts",
     ]
 }

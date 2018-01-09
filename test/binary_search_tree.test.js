@@ -1,9 +1,8 @@
 'use strict';
 
-var Test = require('tape');
-var BinarySearchTree = require('../js/binary_search_tree.js');
-var BinaryNode = require('../js/binary_node.js');
-var DEFAULT_COMP = (a, b) => {
+const Test = require('tape');
+const BinarySearchTree = require('../dist/binary_search_tree.js');
+const DEFAULT_COMP = (a, b) => {
 	if (a < b) {
 		return -1;
 	} else if (a === b) {
