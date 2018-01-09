@@ -19,11 +19,10 @@ module.exports =  class BinarySearchTree {
 
 	constructor(comp: (a: number, b: number) => number = DEFAULT_COMP, elements: any[] = []) {
 		this.root = undefined;
-		this._baseComp = comp;
+		this._baseComp = comp; // Necessary for generating subtrees
 		this._comp = (value: any, node: BinaryNode): number => {
 			try {
-				const equality = comp(value, node.value);
-				return equality;
+				return comp(value, node.value);
 			} catch {
 				return undefined;
 			}
@@ -184,14 +183,14 @@ module.exports =  class BinarySearchTree {
 		let parent: BinaryNode = undefined;
 
 		while (true) {
-			const equality = this._comp(value, node);
+			const equal = this._comp(value, node);
 
-			if (equality < 0) { // If the value belongs in the left subtree
+			if (equal < 0) { // If the value belongs in the left subtree
 				parent = node;
 				node = node.leftChild;
-			} else if (equality === 0) { // The node matches the given value
+			} else if (equal === 0) { // The node matches the given value
 				return parent;
-			} else if (equality > 0) { // If the value belongs in the right subtree
+			} else if (equal > 0) { // If the value belongs in the right subtree
 				parent = node;
 				node = node.rightChild;
 			} else {

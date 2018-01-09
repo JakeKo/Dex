@@ -101,6 +101,53 @@ Test('The BinarySearchTree class handles duplicate elements via explicit inserti
 	assert.end();
 });
 
+Test('The BinarySearchTree class handles dissimilar insertions that look identical to the comparator', (assert) => {
+	const elements = [
+		{ name: 'Sam',		age: 25 },
+		{ name: 'Bridget',	age: 67 },
+		{ name: 'Martin',	age: 37 },
+		{ name: 'Abby',		age: 17 },
+		{ name: 'Donald',	age: 25 },
+		{ name: 'Sylvia',	age: 45 },
+		{ name: 'Martin',	age: 12 },
+	];
+	const comp = (a, b) => {
+		if (a.age < b.age) {
+			return -1;
+		} else if (a.age === b.age) {
+			return 0;
+		} else if (a.age > b.age) {
+			return 1;
+		}
+	}
+	const t = new BinarySearchTree(comp, elements);
+	
+	assert.deepEqual(t.get({ name: 'Sam', age: 25 }).value.name, 'Sam');
+	assert.deepEqual(t.get({ name: 'Sam', age: 25 }).value.age, 25);
+	assert.deepEqual(t.get({ name: 'Sam', age: 25 }).count, 1);
+
+	assert.deepEqual(t.get({ name: 'Donald', age: 25 }).value.name, 'Donald');
+	assert.deepEqual(t.get({ name: 'Donald', age: 25 }).value.age, 25);
+	assert.deepEqual(t.get({ name: 'Donald', age: 25 }).count, 1);
+	
+	assert.deepEqual(t.get({ name: 'Martin', age: 37 }).value.name, 'Martin');
+	assert.deepEqual(t.get({ name: 'Martin', age: 37 }).value.age, 37);
+	assert.deepEqual(t.get({ name: 'Martin', age: 37 }).count, 1);
+
+	assert.deepEqual(t.get({ name: 'Martin', age: 12 }).value.name, 'Martin');
+	assert.deepEqual(t.get({ name: 'Martin', age: 12 }).value.age, 12);
+	assert.deepEqual(t.get({ name: 'Martin', age: 12 }).count, 1);
+
+	assert.deepEqual(t.delete({ name: 'Sam', age: 25 }), true);
+	assert.deepEqual(t.get({ name: 'Sam', age: 25 }), undefined);
+
+	assert.deepEqual(t.get({ name: 'Donald', age: 25 }).value.name, 'Donald');
+	assert.deepEqual(t.get({ name: 'Donald', age: 25 }).value.age, 25);
+	assert.deepEqual(t.get({ name: 'Donald', age: 25 }).count, 1);
+
+	assert.end();
+});
+
 Test('The BinarySearchTree class handles duplicate deletions', (assert) => {
 	const t = new BinarySearchTree(DEFAULT_COMP, [5, 5, 5, 5, 5]);
 	

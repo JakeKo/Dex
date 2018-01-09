@@ -17,8 +17,7 @@ module.exports = class BinarySearchTree {
         this._baseComp = comp;
         this._comp = (value, node) => {
             try {
-                const equality = comp(value, node.value);
-                return equality;
+                return comp(value, node.value);
             }
             catch (_a) {
                 return undefined;
@@ -150,15 +149,15 @@ module.exports = class BinarySearchTree {
         let node = this.root;
         let parent = undefined;
         while (true) {
-            const equality = this._comp(value, node);
-            if (equality < 0) {
+            const equal = this._comp(value, node);
+            if (equal < 0) {
                 parent = node;
                 node = node.leftChild;
             }
-            else if (equality === 0) {
+            else if (equal === 0) {
                 return parent;
             }
-            else if (equality > 0) {
+            else if (equal > 0) {
                 parent = node;
                 node = node.rightChild;
             }
