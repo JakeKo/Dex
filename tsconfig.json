@@ -6,7 +6,8 @@
         "target": "es6",
         "moduleResolution": "classic",
         "module": "commonjs",
-        "declaration": true,
+        // "declaration": true,
+        // "strict": true
     },
     "include": [
         "./ts/binary_search_tree.ts",
