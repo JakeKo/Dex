@@ -14,19 +14,18 @@ var DEFAULT_COMP = (a: number, b: number): number => {
 };
 
 module.exports = class BinarySearchTree {
-	_root: BinaryNode;
-	_comp: (value: any, node: BinaryNode) => number;
+	private _root: BinaryNode;
+	private _comp: (value: any, node: BinaryNode) => number;
 
 	constructor(comp: (a: number, b: number) => number = DEFAULT_COMP, elements: any[] = []) {
 		this.root = undefined;
 		this._comp = (value: any, node: BinaryNode): number => {
-			const equality = comp(value, node.value);
-			
-			if (equality === undefined) {
-				throw `Provided comparator cannot interpret provided element: ${value}`;
+			try {
+				const equality = comp(value, node.value);
+				return equality;
+			} catch {
+				return undefined;
 			}
-
-			return equality;
 		}
 
 		for (const e of elements) {
@@ -47,46 +46,52 @@ module.exports = class BinarySearchTree {
 	// Inserts an element in the tree, maintaining order
 	// Returns true if the element was successfully inserted
 	// Returns false otherwise
-	insert(value: any): boolean {
-		let node = this.root;
+	public insert(value: any): boolean {
+		let node: BinaryNode = this.root;
 
 		if (node === undefined) {
 			this.root = new BinaryNode(value);
-		} else {
-			while (true) {
-				const equal = this._comp(value, node);
+			return true;
+		}
+		
+		while (true) {
+			const equal: number = this._comp(value, node);
 
-				if (equal < 0) { // If the value belongs in the left subtree
-					if (node.leftChild === undefined) {
-						node.leftChild = value;
-						break;
-					} else {
-						node = node.leftChild;
-					}
-				} else if (equal === 0) { // If the value matches the current node
-					node.count++;
-					break;
-				} else if (equal > 0) { // If the value belongs in the right subtree
-					if (node.rightChild === undefined) {
-						node.rightChild = value;
-						break;
-					} else {
-						node = node.rightChild;
-					}
+			if (equal < 0) { // If the value belongs in the left subtree
+				if (node.leftChild === undefined) {
+					node.leftChild = value;
+					return true;
+				} else {
+					node = node.leftChild;
 				}
+			} else if (equal === 0) { // If the value matches the current node
+				node.count++;
+				return true;
+			} else if (equal > 0) { // If the value belongs in the right subtree
+				if (node.rightChild === undefined) {
+					node.rightChild = value;
+					return true;
+				} else {
+					node = node.rightChild;
+				}
+			} else {
+				return false;
+				// if (node === undefined) {
+				// 	throw `Provided comparator cannot interpret value of undefined node`;
+				// } else {
+				// 	throw `Provided comparator cannot interpret provided value: ${value}`;
+				// }
 			}
 		}
-
-		return true;
 	}
 
 	// Returns the node with the given value in the tree
 	// Returns false if the node does not exist
-	get(value: any): BinaryNode {
-		let node = this.root;
+	public get(value: any): BinaryNode {
+		let node: BinaryNode = this.root;
 
 		while (true) {
-			const equal = this._comp(value, node);
+			const equal: number = this._comp(value, node);
 
 			if (equal < 0) { // If the value belongs in the left subtree
 				node = node.leftChild;
@@ -94,6 +99,8 @@ module.exports = class BinarySearchTree {
 				return node;
 			} else if (equal > 0) { // If the value belongs in the right subtree
 				node = node.rightChild;
+			} else {
+				return undefined;
 			}
 		}
 	}
@@ -101,12 +108,12 @@ module.exports = class BinarySearchTree {
 	// Removes a value from the tree, maintaining order
 	// Returns true if successful
 	// Returns false if the value does not exist
-	delete(value: any): boolean {
-		const node = this.get(value);
-		let replacer = undefined;
+	public delete(value: any): boolean {
+		const node: BinaryNode = this.get(value);
+		let replacer: BinaryNode = undefined;
 
 		if (node === undefined) {
-			return undefined;
+			return false;
 		} else {
 			node.count--;
 		}
@@ -171,9 +178,9 @@ module.exports = class BinarySearchTree {
 	// Returns the parent of the node with the specified value
 	// Returns undefined if the value matches the root value
 	// Returns false if the value does not exist
-	parent(value: any): BinaryNode {
-		let node = this.root;
-		let parent = undefined;
+	public parent(value: any): BinaryNode {
+		let node: BinaryNode = this.root;
+		let parent: BinaryNode = undefined;
 
 		while (true) {
 			const equality = this._comp(value, node);
@@ -186,45 +193,47 @@ module.exports = class BinarySearchTree {
 			} else if (equality > 0) { // If the value belongs in the right subtree
 				parent = node;
 				node = node.rightChild;
+			} else {
+				return undefined;
 			}
 		}
 	}
 
 	// Returns a binary search tree representing the left subtree of the specified node
 	// Returns false if there is no left subtree or the node is undefined
-	leftSubtree(node: BinaryNode): BinarySearchTree {
+	public leftSubtree(node: BinaryNode): BinarySearchTree {
 		if (node === undefined || node.leftChild === undefined) {
 			return undefined;
 		}
 
 		// The left child contains all nodes in the left subtree
-		const t = new BinarySearchTree(this._comp);
+		const t: BinarySearchTree = new BinarySearchTree(this._comp);
 		t.root = node.leftChild;
 		return t;
 	}
 	
 	// Returns a binary search tree representing the right subtree of the specified node
 	// Returns false if there is no right subtree or the node is undefined
-	rightSubtree(node: BinaryNode): BinarySearchTree {
+	public rightSubtree(node: BinaryNode): BinarySearchTree {
 		if (node === undefined || node.rightChild === undefined) {
 			return undefined;
 		}
 		
 		// The right child contains all nodes in the right subtree
-		const t = new BinarySearchTree(this._comp);
+		const t: BinarySearchTree = new BinarySearchTree(this._comp);
 		t.root = node.rightChild;
 		return t;
 	}
 
 	// Returns an array representing a pre-order traversal
-	preOrderTraversal(): any[] {
+	public preOrderTraversal(): any[] {
 		const result: any[] = [];
 		traverse(this.root);
 		return result;
 
 		function traverse(node: BinaryNode): void {
 			if (node !== undefined && (node.value !== undefined || node.leftChild !== undefined || node.rightChild !== undefined)) {
-				for (let i = 0; i < node.count; i++) { // Handle duplicate values
+				for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
 					result.push(node.value);
 				}
 
@@ -235,7 +244,7 @@ module.exports = class BinarySearchTree {
 	}
 	
 	// Returns an array representing an in-order traversal
-	inOrderTraversal(): any[] {
+	public inOrderTraversal(): any[] {
 		const result: any[] = [];
 		traverse(this.root);
 		return result;
@@ -244,7 +253,7 @@ module.exports = class BinarySearchTree {
 			if (node !== undefined && (node.value !== undefined || node.leftChild !== undefined || node.rightChild !== undefined)) {
 				traverse(node.leftChild);
 				
-				for (let i = 0; i < node.count; i++) { // Handle duplicate values
+				for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
 					result.push(node.value);
 				}
 
@@ -254,7 +263,7 @@ module.exports = class BinarySearchTree {
 	}
 
 	// Returns an array representing a post-order traversal
-	postOrderTraversal(): any[] {
+	public postOrderTraversal(): any[] {
 		const result: any[] = [];
 		traverse(this.root);
 		return result;
@@ -264,7 +273,7 @@ module.exports = class BinarySearchTree {
 				traverse(node.leftChild);
 				traverse(node.rightChild);
 				
-				for (let i = 0; i < node.count; i++) { // Handle duplicate values
+				for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
 					result.push(node.value);
 				}
 			}

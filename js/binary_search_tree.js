@@ -15,11 +15,13 @@ module.exports = class BinarySearchTree {
     constructor(comp = DEFAULT_COMP, elements = []) {
         this.root = undefined;
         this._comp = (value, node) => {
-            const equality = comp(value, node.value);
-            if (equality === undefined) {
-                throw `Provided comparator cannot interpret provided element: ${value}`;
+            try {
+                const equality = comp(value, node.value);
+                return equality;
             }
-            return equality;
+            catch (_a) {
+                return undefined;
+            }
         };
         for (const e of elements) {
             this.insert(e);
@@ -35,35 +37,36 @@ module.exports = class BinarySearchTree {
         let node = this.root;
         if (node === undefined) {
             this.root = new BinaryNode(value);
+            return true;
         }
-        else {
-            while (true) {
-                const equal = this._comp(value, node);
-                if (equal < 0) {
-                    if (node.leftChild === undefined) {
-                        node.leftChild = value;
-                        break;
-                    }
-                    else {
-                        node = node.leftChild;
-                    }
+        while (true) {
+            const equal = this._comp(value, node);
+            if (equal < 0) {
+                if (node.leftChild === undefined) {
+                    node.leftChild = value;
+                    return true;
                 }
-                else if (equal === 0) {
-                    node.count++;
-                    break;
-                }
-                else if (equal > 0) {
-                    if (node.rightChild === undefined) {
-                        node.rightChild = value;
-                        break;
-                    }
-                    else {
-                        node = node.rightChild;
-                    }
+                else {
+                    node = node.leftChild;
                 }
             }
+            else if (equal === 0) {
+                node.count++;
+                return true;
+            }
+            else if (equal > 0) {
+                if (node.rightChild === undefined) {
+                    node.rightChild = value;
+                    return true;
+                }
+                else {
+                    node = node.rightChild;
+                }
+            }
+            else {
+                return false;
+            }
         }
-        return true;
     }
     get(value) {
         let node = this.root;
@@ -78,13 +81,16 @@ module.exports = class BinarySearchTree {
             else if (equal > 0) {
                 node = node.rightChild;
             }
+            else {
+                return undefined;
+            }
         }
     }
     delete(value) {
         const node = this.get(value);
         let replacer = undefined;
         if (node === undefined) {
-            return undefined;
+            return false;
         }
         else {
             node.count--;
@@ -154,6 +160,9 @@ module.exports = class BinarySearchTree {
             else if (equality > 0) {
                 parent = node;
                 node = node.rightChild;
+            }
+            else {
+                return undefined;
             }
         }
     }
