@@ -45,7 +45,7 @@ module.exports =  class BinarySearchTree {
 
 	// Inserts an element in the tree, maintaining order
 	// Returns true if the element was successfully inserted
-	// Returns false otherwise
+	// Returns false if the element was not inserted
 	public insert(value: any): boolean {
 		let node: BinaryNode = this.root;
 
@@ -86,7 +86,7 @@ module.exports =  class BinarySearchTree {
 	}
 
 	// Returns the node with the given value in the tree
-	// Returns false if the node does not exist
+	// Returns undefined if the node does not exist or the value cannot be interpreted
 	public get(value: any): BinaryNode {
 		let node: BinaryNode = this.root;
 
@@ -176,8 +176,7 @@ module.exports =  class BinarySearchTree {
 	}
 
 	// Returns the parent of the node with the specified value
-	// Returns undefined if the value matches the root value
-	// Returns false if the value does not exist
+	// Returns undefined if the matching node has no parent, the node does not exist, or the value cannot be interpreted
 	public parent(value: any): BinaryNode {
 		let node: BinaryNode = this.root;
 		let parent: BinaryNode = undefined;
@@ -200,7 +199,7 @@ module.exports =  class BinarySearchTree {
 	}
 
 	// Returns a binary search tree representing the left subtree of the specified node
-	// Returns false if there is no left subtree or the node is undefined
+	// Returns undefined if there is no left child or the node is undefined
 	public leftSubtree(node: BinaryNode): BinarySearchTree {
 		if (node === undefined || node.leftChild === undefined) {
 			return undefined;
@@ -213,7 +212,7 @@ module.exports =  class BinarySearchTree {
 	}
 	
 	// Returns a binary search tree representing the right subtree of the specified node
-	// Returns false if there is no right subtree or the node is undefined
+	// Returns undefined if there is no right child or the node is undefined
 	public rightSubtree(node: BinaryNode): BinarySearchTree {
 		if (node === undefined || node.rightChild === undefined) {
 			return undefined;
