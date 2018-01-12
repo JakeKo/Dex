@@ -1,5 +1,5 @@
-var Test = require('tape');
-var Heap = require('../dist/heap.js');
+const Test = require('tape');
+const Heap = require('../dist/heap.js');
 const DEFAULT_COMP = (a, b) => {
 	if (a < b) {
 		return -1;
@@ -11,31 +11,31 @@ const DEFAULT_COMP = (a, b) => {
 };
 
 Test('The Heap class constructs with no parameters', (assert) => {
-	let h = new Heap();
+	const h = new Heap();
 	assert.deepEqual(h.list, []);
 	assert.end();
 });
 
 Test('The Heap class constructs with comp parameter', (assert) => {
-	let h = new Heap(DEFAULT_COMP);
+	const h = new Heap(DEFAULT_COMP);
 	assert.deepEqual(h.list, []);
 	assert.end();
 });
 
 Test('The Heap class constructs with disordered elements', (assert) => {
-	let h = new Heap(DEFAULT_COMP, [87, 23, 19, 5, 6, 7]);
+	const h = new Heap(DEFAULT_COMP, [87, 23, 19, 5, 6, 7]);
 	assert.deepEqual(h.list, [5, 6, 7, 87, 19, 23]);
 	assert.end();
 });
 
 Test('The Heap class constructs with both parameters as a min heap', (assert) => {
-	let h = new Heap(DEFAULT_COMP, [1, 2, 3, 4, 5, 6, 7]);
+	const h = new Heap(DEFAULT_COMP, [1, 2, 3, 4, 5, 6, 7]);
 	assert.deepEqual(h.list, [1, 2, 3, 4, 5, 6, 7]);
 	assert.end();
 });
 
 Test('The Heap class constructs with both parameters as a max heap', (assert) => {
-	let h = new Heap((x, y) => {
+	const h = new Heap((x, y) => {
 		if (x > y) return -1;
 		else if (x === y) return 0;
 		else if (x > y) return 1;
@@ -45,7 +45,7 @@ Test('The Heap class constructs with both parameters as a max heap', (assert) =>
 });
 
 Test('The Heap class inserts elements with no prior elements', (assert) => {
-	let h = new Heap();
+	const h = new Heap();
 	assert.deepEqual(h.insert(5), true);
 	assert.deepEqual(h.list, [5]);
 	assert.deepEqual(h.insert(6), true);
@@ -56,7 +56,7 @@ Test('The Heap class inserts elements with no prior elements', (assert) => {
 });
 
 Test('The Heap class inserts elements with prior elements', (assert) => {
-	let h = new Heap(DEFAULT_COMP, [1, 2, 3]);
+	const h = new Heap(DEFAULT_COMP, [1, 2, 3]);
 	assert.deepEqual(h.insert(5), true);
 	assert.deepEqual(h.list, [1, 2, 3, 5]);
 	assert.deepEqual(h.insert(6), true);
@@ -67,7 +67,7 @@ Test('The Heap class inserts elements with prior elements', (assert) => {
 });
 
 Test('The Heap class inserts disordered elements', (assert) => {
-	let h = new Heap();
+	const h = new Heap();
 	assert.deepEqual(h.insert(87), true);
 	assert.deepEqual(h.list, [87]);
 	assert.deepEqual(h.insert(23), true);
@@ -84,7 +84,7 @@ Test('The Heap class inserts disordered elements', (assert) => {
 });
 
 // Test('The Heap class does not insert dissimilar elements', (assert) => {
-// 	let h = new Heap();
+// 	const h = new Heap();
 // 	h.insert(5);
 // 	h.insert(6);
 // 	h.insert(7);
@@ -95,7 +95,7 @@ Test('The Heap class inserts disordered elements', (assert) => {
 // });
 
 Test('The Heap class removes elements', (assert) => {
-	let h = new Heap(DEFAULT_COMP, [1, 2, 3, 4, 5, 6, 7]);
+	const h = new Heap(DEFAULT_COMP, [1, 2, 3, 4, 5, 6, 7]);
 	assert.deepEqual(h.list, [1, 2, 3, 4, 5, 6, 7]);
 	assert.deepEqual(h.remove(5), true);
 	assert.deepEqual(h.list, [1, 2, 3, 4, 7, 6]);

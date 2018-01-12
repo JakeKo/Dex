@@ -1,20 +1,23 @@
-var Test = require('tape');
-var PriorityQueue = require('../js/priority_queue.js');
-var DEFAULT_COMP = (a, b) => {
-	if (a < b) return -1;
-	else if (a === b) return 0;
-	else if (a > b) return 1;
-	else return false;
+const Test = require('tape');
+const PriorityQueue = require('../dist/priority_queue.js');
+const DEFAULT_COMP = (a, b) => {
+	if (a < b) {
+		return -1;
+	} else if (a === b) {
+		return 0;
+	} else if (a > b) {
+		return 1;
+	}
 };
 
 Test('The PriorityQueue class constructs with no parameters', (assert) => {
-	let p = new PriorityQueue();
+	const p = new PriorityQueue();
 	assert.deepEqual(p.heap.list, []);
 	assert.end();
 });
 
 Test('The PriorityQueue class constructs with basic comparator', (assert) => {
-	let p = new PriorityQueue((x, y) => {
+	const p = new PriorityQueue((x, y) => {
 		y += 10;
 		if (x < y) return -1;
 		else if (x === y) return 0;
@@ -25,7 +28,7 @@ Test('The PriorityQueue class constructs with basic comparator', (assert) => {
 });
 
 Test('The PriorityQueue class constructs with complex comparator', (assert) => {
-	let p = new PriorityQueue((x, y) => {
+	const p = new PriorityQueue((x, y) => {
 		x = x.name.length % 2;
 		y = 6 * Math.exp(y);
 		if (x > y) return -1;
@@ -37,13 +40,13 @@ Test('The PriorityQueue class constructs with complex comparator', (assert) => {
 });
 
 Test('The PriorityQueue class constructs with both parameters', (assert) => {
-	let p = new PriorityQueue(DEFAULT_COMP, [1, 2, 3, 4, 5]);
+	const p = new PriorityQueue(DEFAULT_COMP, [1, 2, 3, 4, 5]);
 	assert.deepEqual(p.heap.list, [1, 2, 3, 4, 5]);
 	assert.end();
 });
 
 Test('The PriorityQueue class enqueues ordered elements', (assert) => {
-	let p = new PriorityQueue();
+	const p = new PriorityQueue();
 	p.enqueue(1);
 	assert.deepEqual(p.heap.list, [1]);
 	p.enqueue(2);
@@ -58,7 +61,7 @@ Test('The PriorityQueue class enqueues ordered elements', (assert) => {
 });
 
 Test('The PriorityQueue class enqueues unordered elements', (assert) => {
-	let p = new PriorityQueue();
+	const p = new PriorityQueue();
 	p.enqueue(3);
 	assert.deepEqual(p.heap.list, [3]);
 	p.enqueue(5);
@@ -73,7 +76,7 @@ Test('The PriorityQueue class enqueues unordered elements', (assert) => {
 });
 
 Test('The PriorityQueue class peeks elements', (assert) => {
-	let p = new PriorityQueue();
+	const p = new PriorityQueue();
 	assert.deepEqual(p.peek(), undefined);
 	p.enqueue(1);
 	p.enqueue(2);
@@ -85,7 +88,7 @@ Test('The PriorityQueue class peeks elements', (assert) => {
 });
 
 Test('The PriorityQueue class dequeues elements', (assert) => {
-	let p = new PriorityQueue(DEFAULT_COMP, [3, 5, 4, 2, 1]);
+	const p = new PriorityQueue(DEFAULT_COMP, [3, 5, 4, 2, 1]);
 	assert.deepEqual(p.heap.list, [1, 2, 4, 5, 3]);
 	assert.deepEqual(p.dequeue(), 1);
 	assert.deepEqual(p.heap.list, [2, 3, 4, 5]);
@@ -103,7 +106,7 @@ Test('The PriorityQueue class dequeues elements', (assert) => {
 });
 
 Test('The PriorityQueue class deletes elements', (assert) => {
-	let p = new PriorityQueue(DEFAULT_COMP, [3, 5, 4, 2, 1]);
+	const p = new PriorityQueue(DEFAULT_COMP, [3, 5, 4, 2, 1]);
 	assert.deepEqual(p.heap.list, [1, 2, 4, 5, 3]);
 	p.delete(1);
 	assert.deepEqual(p.heap.list, [2, 3, 4, 5]);

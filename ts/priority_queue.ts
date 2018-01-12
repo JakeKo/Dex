@@ -1,31 +1,40 @@
-var Heap = require('./heap.js')
-var DEFAULT_COMP = (a, b) => {
-	if (a < b) return -1;
-	else if (a === b) return 0;
-	else if (a > b) return 1;
-	else return false;
+const Heap = require('./heap.js')
+const DEFAULT_COMP = (a: number, b: number): number => {
+	if (a < b) {
+		return -1;
+	} else if (a === b) {
+		return 0;
+	} else if (a > b) {
+		return 1;
+	}
 };
 
 module.exports = class PriorityQueue {
-	constructor(comp = DEFAULT_COMP, list = new Array()) {
-		this.heap = new Heap(comp, list);
+	private _heap: Heap;
+
+	constructor(comp: (a: number, b: number) => number = DEFAULT_COMP, list: any[] = []) {
+		this._heap = new Heap(comp, list);
 	}
 
-	peek() {
-		return this.heap.list[0];
+	get heap(): Heap {
+		return this._heap;
 	}
 
-	enqueue(value) {
-		this.heap.insert(value);
+	public peek(): any {
+		return this._heap.list[0];
 	}
 
-	dequeue() {
-		let result = this.peek();
+	public enqueue(value: any): void {
+		this._heap.insert(value);
+	}
+
+	public dequeue(): any {
+		const result = this.peek();
 		this.delete(result);
 		return result;
 	}
 
-	delete(value) {
-		this.heap.remove(value);
+	public delete(value: any): void {
+		this._heap.remove(value);
 	}
 }
