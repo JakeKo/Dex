@@ -1,6 +1,5 @@
 'use strict';
 
-declare function require(value: string): any;
 const BinaryNode = require('./binary_node.js');
 const DEFAULT_COMP = (a: number, b: number): number => {
 	if (a < b) {
@@ -58,7 +57,7 @@ module.exports =  class BinarySearchTree {
 			const equal: number = this._comp(value, node);
 
 			if (equal < 0) { // If the value belongs in the left subtree
-				if (node.leftChild === undefined) {
+				if (!node.hasLeftChild()) {
 					node.leftChild = new BinaryNode(value);
 					return true;
 				} else {
@@ -68,7 +67,7 @@ module.exports =  class BinarySearchTree {
 				node.count++;
 				return true;
 			} else if (equal > 0) { // If the value belongs in the right subtree
-				if (node.rightChild === undefined) {
+				if (!node.hasRightChild()) {
 					node.rightChild = new BinaryNode(value);
 					return true;
 				} else {
@@ -119,10 +118,10 @@ module.exports =  class BinarySearchTree {
 		}
 
 		if (node.count === 0) {
-			if (node.leftChild !== undefined) {
+			if (node.hasLeftChild()) {
 				// Replacer should be the right-most child of the left subtree
 				replacer = node.leftChild;
-				while (replacer.rightChild !== undefined) {
+				while (replacer.hasRightChild()) {
 					replacer = replacer.rightChild;
 				}
 	
@@ -130,7 +129,7 @@ module.exports =  class BinarySearchTree {
 				node.value = replacer.value;
 				node.count = replacer.count;
 
-				if (replacer.leftChild === undefined) { // If replacer has no left subtree, remove the node
+				if (!replacer.hasLeftChild()) { // If replacer has no left subtree, remove the node
 					this.parent(replacer.value).rightChild = undefined;
 				} else { // If replacer has a left subtree, replacer must become that left subtree
 					// Deep copy of left child
@@ -139,10 +138,10 @@ module.exports =  class BinarySearchTree {
 					replacer.leftChild = replacer.leftChild.leftChild;
 					replacer.count = replacer.leftChild.count;
 				}
-			} else if (node.rightChild !== undefined) {
+			} else if (node.hasRightChild()) {
 				// Replacer should be the left-most child of the right subtree
 				replacer = node.rightChild;
-				while (replacer.leftChild !== undefined) {
+				while (replacer.hasLeftChild()) {
 					replacer = replacer.leftChild;
 				}
 				
@@ -150,7 +149,7 @@ module.exports =  class BinarySearchTree {
 				node.value = replacer.value;
 				node.count = replacer.count;
 
-				if (replacer.rightChild === undefined) { // If replacer has no right subtree, remove the node
+				if (!replacer.hasRightChild()) { // If replacer has no right subtree, remove the node
 					this.parent(replacer.value).leftChild = undefined;
 				} else { // If replacer has a right subtree, replacer must become that right subtree
 					// Deep copy of right child
@@ -201,7 +200,7 @@ module.exports =  class BinarySearchTree {
 	// Returns a binary search tree representing the left subtree of the specified node
 	// Returns undefined if there is no left child or the node is undefined
 	public leftSubtree(node: BinaryNode): BinarySearchTree {
-		if (node === undefined || node.leftChild === undefined) {
+		if (node === undefined || !node.hasLeftChild()) {
 			return undefined;
 		}
 
@@ -214,7 +213,7 @@ module.exports =  class BinarySearchTree {
 	// Returns a binary search tree representing the right subtree of the specified node
 	// Returns undefined if there is no right child or the node is undefined
 	public rightSubtree(node: BinaryNode): BinarySearchTree {
-		if (node === undefined || node.rightChild === undefined) {
+		if (node === undefined || !node.hasRightChild()) {
 			return undefined;
 		}
 		
@@ -231,7 +230,7 @@ module.exports =  class BinarySearchTree {
 		return result;
 
 		function traverse(node: BinaryNode): void {
-			if (node !== undefined && (node.value !== undefined || node.leftChild !== undefined || node.rightChild !== undefined)) {
+			if (node !== undefined && (node.hasValue() || node.hasLeftChild() || node.hasRightChild())) {
 				for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
 					result.push(node.value);
 				}
@@ -249,7 +248,7 @@ module.exports =  class BinarySearchTree {
 		return result;
 
 		function traverse(node: BinaryNode): void {
-			if (node !== undefined && (node.value !== undefined || node.leftChild !== undefined || node.rightChild !== undefined)) {
+			if (node !== undefined && (node.hasValue() || node.hasLeftChild() || node.hasRightChild())) {
 				traverse(node.leftChild);
 				
 				for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
@@ -268,7 +267,7 @@ module.exports =  class BinarySearchTree {
 		return result;
 
 		function traverse(node: BinaryNode): void {
-			if (node !== undefined && (node.value !== undefined || node.leftChild !== undefined || node.rightChild !== undefined)) {
+			if (node !== undefined && (node.hasValue() || node.hasLeftChild() || node.hasRightChild())) {
 				traverse(node.leftChild);
 				traverse(node.rightChild);
 				

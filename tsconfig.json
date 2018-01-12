@@ -11,6 +11,5 @@
     },
     "include": [
         "./ts/binary_search_tree.ts",
-        "./ts/binary_node.ts",
     ]
 }

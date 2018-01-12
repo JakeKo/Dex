@@ -42,7 +42,7 @@ module.exports = class BinarySearchTree {
         while (true) {
             const equal = this._comp(value, node);
             if (equal < 0) {
-                if (node.leftChild === undefined) {
+                if (!node.hasLeftChild()) {
                     node.leftChild = new BinaryNode(value);
                     return true;
                 }
@@ -55,7 +55,7 @@ module.exports = class BinarySearchTree {
                 return true;
             }
             else if (equal > 0) {
-                if (node.rightChild === undefined) {
+                if (!node.hasRightChild()) {
                     node.rightChild = new BinaryNode(value);
                     return true;
                 }
@@ -96,14 +96,14 @@ module.exports = class BinarySearchTree {
             node.count--;
         }
         if (node.count === 0) {
-            if (node.leftChild !== undefined) {
+            if (node.hasLeftChild()) {
                 replacer = node.leftChild;
-                while (replacer.rightChild !== undefined) {
+                while (replacer.hasRightChild()) {
                     replacer = replacer.rightChild;
                 }
                 node.value = replacer.value;
                 node.count = replacer.count;
-                if (replacer.leftChild === undefined) {
+                if (!replacer.hasLeftChild()) {
                     this.parent(replacer.value).rightChild = undefined;
                 }
                 else {
@@ -113,14 +113,14 @@ module.exports = class BinarySearchTree {
                     replacer.count = replacer.leftChild.count;
                 }
             }
-            else if (node.rightChild !== undefined) {
+            else if (node.hasRightChild()) {
                 replacer = node.rightChild;
-                while (replacer.leftChild !== undefined) {
+                while (replacer.hasLeftChild()) {
                     replacer = replacer.leftChild;
                 }
                 node.value = replacer.value;
                 node.count = replacer.count;
-                if (replacer.rightChild === undefined) {
+                if (!replacer.hasRightChild()) {
                     this.parent(replacer.value).leftChild = undefined;
                 }
                 else {
@@ -167,7 +167,7 @@ module.exports = class BinarySearchTree {
         }
     }
     leftSubtree(node) {
-        if (node === undefined || node.leftChild === undefined) {
+        if (node === undefined || !node.hasLeftChild()) {
             return undefined;
         }
         const t = new BinarySearchTree(this._baseComp);
@@ -175,7 +175,7 @@ module.exports = class BinarySearchTree {
         return t;
     }
     rightSubtree(node) {
-        if (node === undefined || node.rightChild === undefined) {
+        if (node === undefined || !node.hasRightChild()) {
             return undefined;
         }
         const t = new BinarySearchTree(this._baseComp);
@@ -187,7 +187,7 @@ module.exports = class BinarySearchTree {
         traverse(this.root);
         return result;
         function traverse(node) {
-            if (node !== undefined && (node.value !== undefined || node.leftChild !== undefined || node.rightChild !== undefined)) {
+            if (node !== undefined && (node.hasValue() || node.hasLeftChild() || node.hasRightChild())) {
                 for (let i = 0; i < node.count; i++) {
                     result.push(node.value);
                 }
@@ -201,7 +201,7 @@ module.exports = class BinarySearchTree {
         traverse(this.root);
         return result;
         function traverse(node) {
-            if (node !== undefined && (node.value !== undefined || node.leftChild !== undefined || node.rightChild !== undefined)) {
+            if (node !== undefined && (node.hasValue() || node.hasLeftChild() || node.hasRightChild())) {
                 traverse(node.leftChild);
                 for (let i = 0; i < node.count; i++) {
                     result.push(node.value);
@@ -215,7 +215,7 @@ module.exports = class BinarySearchTree {
         traverse(this.root);
         return result;
         function traverse(node) {
-            if (node !== undefined && (node.value !== undefined || node.leftChild !== undefined || node.rightChild !== undefined)) {
+            if (node !== undefined && (node.hasValue() || node.hasLeftChild() || node.hasRightChild())) {
                 traverse(node.leftChild);
                 traverse(node.rightChild);
                 for (let i = 0; i < node.count; i++) {
