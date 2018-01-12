@@ -1,9 +1,9 @@
 module.exports = class BinaryNode {
-    constructor(v = undefined, l = undefined, r = undefined) {
-        this._value = v;
-        this._leftChild = l;
-        this._rightChild = r;
-        this._count = 1;
+    constructor(value = undefined, left = undefined, right = undefined) {
+        this.value = value;
+        this.leftChild = left;
+        this.rightChild = right;
+        this.count = 1;
     }
     get value() {
         return this._value;
@@ -17,19 +17,28 @@ module.exports = class BinaryNode {
     get count() {
         return this._count;
     }
-    set value(v) {
-        this._value = v;
+    set value(value) {
+        this._value = value;
     }
-    set leftChild(l) {
-        this._leftChild = l;
+    set leftChild(left) {
+        this._leftChild = left;
     }
-    set rightChild(r) {
-        this._rightChild = r;
+    set rightChild(right) {
+        this._rightChild = right;
     }
-    set count(c) {
-        this._count = c;
+    set count(count) {
+        this._count = count;
     }
     children() {
-        return [this._leftChild, this._rightChild];
+        return [this.leftChild, this.rightChild].filter((e) => e !== undefined);
+    }
+    hasValue() {
+        return this.value !== undefined;
+    }
+    hasLeftChild() {
+        return this.leftChild !== undefined;
+    }
+    hasRightChild() {
+        return this.rightChild !== undefined;
     }
 };

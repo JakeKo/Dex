@@ -4,11 +4,11 @@ module.exports =  class BinaryNode {
 	private _rightChild: BinaryNode;
 	private _count: number;
 
-	constructor(v: any = undefined, l: BinaryNode = undefined, r: BinaryNode = undefined) {
-		this._value = v;
-		this._leftChild = l;
-		this._rightChild = r;
-		this._count = 1;
+	constructor(value: any = undefined, left: any = undefined, right: any = undefined) {
+		this.value = value;
+		this.leftChild = left;
+		this.rightChild = right;
+		this.count = 1;
 	}
 	
 	// Returns the value of the node
@@ -16,13 +16,13 @@ module.exports =  class BinaryNode {
 		return this._value;
 	}
 
-	// Returns an object representing the left child of the node
-	get leftChild(): BinaryNode {
+	// Returns the value of the left child of the node
+	get leftChild(): any {
 		return this._leftChild;
 	}
 
-	// Returns an object representing the right child of the node
-	get rightChild(): BinaryNode {
+	// Returns the value of the right child of the node
+	get rightChild(): any {
 		return this._rightChild;
 	}
 
@@ -32,27 +32,46 @@ module.exports =  class BinaryNode {
 	}
 
 	// Sets the value of the node to the specified value
-	set value(v: any) {
-		this._value = v;
+	set value(value: any) {
+		this._value = value;
 	}
 
-	// Sets the left child of the node to the specified object
-	set leftChild(l: BinaryNode) {
-		this._leftChild = l;
+	// Sets the left child of the node to the specified value
+	set leftChild(left: any) {
+		this._leftChild = left;
 	}
 
-	// Sets the right child of the node to the specified object
-	set rightChild(r: BinaryNode) {
-		this._rightChild = r;
+	// Sets the right child of the node to the specified value
+	set rightChild(right: any) {
+		this._rightChild = right;
 	}
 
 	// Sets the count of identical values of the node
-	set count(c: number) {
-		this._count = c;
+	set count(count: number) {
+		this._count = count;
 	}
 	
 	// Returns and an array containing the children of the node
-	public children(): BinaryNode[] {
-		return [this._leftChild, this._rightChild];
+	// Excludes undefined children
+	public children(): any[] {
+		return [this.leftChild, this.rightChild].filter((e) => e !== undefined);
+	}
+
+	// Returns true if the node has a value that is not undefined
+	// Returns false if the node does not have a value or the value is undefined
+	public hasValue(): boolean {
+		return this.value !== undefined;
+	}
+
+	// Returns true if the node has a left child
+	// Returns false if the node does not have a left child
+	public hasLeftChild(): boolean {
+		return this.leftChild !== undefined;
+	}
+	
+	// Returns true if the node has a right child
+	// Returns false if the node does not have a right child
+	public hasRightChild(): boolean {
+		return this.rightChild !== undefined;
 	}
 }
