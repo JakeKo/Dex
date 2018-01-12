@@ -1,10 +1,13 @@
 var Test = require('tape');
-var Heap = require('../js/heap.js');
-var DEFAULT_COMP = (a, b) => {
-	if (a < b) return -1;
-	else if (a === b) return 0;
-	else if (a > b) return 1;
-	else return false;
+var Heap = require('../dist/heap.js');
+const DEFAULT_COMP = (a, b) => {
+	if (a < b) {
+		return -1;
+	} else if (a === b) {
+		return 0;
+	} else if (a > b) {
+		return 1;
+	}
 };
 
 Test('The Heap class constructs with no parameters', (assert) => {

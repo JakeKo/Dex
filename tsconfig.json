@@ -10,6 +10,7 @@
         // "strict": true
     },
     "include": [
-        "./ts/binary_search_tree.ts",
+        "./ts/heap.ts",
+        "./ts/utility.ts",
     ]
 }

@@ -1,103 +1,126 @@
+'use strict';
+
 require('./utility.js');
-var DEFAULT_COMP = (a, b) => {
-	if (a < b) return -1;
-	else if (a === b) return 0;
-	else if (a > b) return 1;
-	else return false;
+const DEFAULT_COMP = (a: number, b: number): number => {
+	if (a < b) {
+		return -1;
+	} else if (a === b) {
+		return 0;
+	} else if (a > b) {
+		return 1;
+	}
 };
 
 module.exports = class Heap {
-	constructor(comp = DEFAULT_COMP, list = new Array()) {
-		this._list = new Array();
-		// Converts the provided comparator to be index-based for simplicity
-		this._comp = (i, j) => !this._list[i] || !this._list[j] ? false : comp(this._list[i], this._list[j]);
+	private _list: any[];
+	private _comp: (i: number, j: number) => number;
 
-		for (let item of list)
+	constructor(comp: (a: number, b: number) => number = DEFAULT_COMP, list: any[] = []) {
+		this._list = [];
+		// Converts the provided comparator to be index-based for simplicity
+		this._comp = (i: number, j: number) => {
+			const first = this._list[i];
+			const second = this._list[j];
+
+			try {
+				return comp(first, second);
+			} catch {
+				if (first === undefined || second === undefined) {
+					return undefined;
+				} else {
+					throw `Provided comparator cannot interpret provided values ${first} ${second}`;
+				}
+			}
+		};
+
+		for (const item of list) {
 			this.insert(item);
+		}
 	}
 
 	// Returns the list of values stored in the heap
-	get list() {
+	get list(): any[] {
 		return this._list;
 	}
 
 	// Returns the index of the left child
-	_left(i) {
-		return 2 * i + 1;
+	_left(index: number): number {
+		return 2 * index + 1;
 	}
 
 	// Return the index of the right child
-	_right(i) {
-		return this._left(i) + 1;
+	_right(index: number): number {
+		return this._left(index) + 1;
 	}
 
 	// Returns the index of the parent
-	_parent(i) {
-		return Math.floor((i - 1) / 2);
+	_parent(index: number): number {
+		return Math.floor((index - 1) / 2);
 	}
 	
-	// Returns false if the node does not have any children
-	// Returns the left child if there is no right child 
 	// Returns the index of the child matching the condition provided by the comparator
-	_matchChild(i) {
-		let l = this._left(i);
-		let r = this._right(i);
-	
-		if (!this._list[l] && !this._list[r]) return false;
-		else if (this._list[l] && !this._list[r]) return l;
-		else if (this._list[l] && this._list[r]) return this._comp(l, r) < 0 ? l : r;
+	// Returns undefined if the node does not have any children
+	// Returns the left child if there is no right child 
+	_matchChild(index: number): number {
+		const leftIndex = this._left(index);
+		const rightIndex = this._right(index);
+		const equal = this._comp(leftIndex, rightIndex);
+
+		if (equal === undefined) {
+			return this._list[leftIndex] === undefined ? undefined : leftIndex;
+		} else {
+			return equal < 0 ? leftIndex : rightIndex;
+		}
 	}
 
 	// Swaps a node downard until the heap is valid
-	_heapifyDown(i) {
-		let child = this._matchChild(i);
+	_heapifyDown(index: number): void {
+		let childIndex = this._matchChild(index);
 		
-		// While there is a child that matches the condition to swap
-		while (this._comp(child, i) < 0) {
-			this._list.swap(i, child);
-			i = child;
-			child = this._matchChild(i);
+		while (this._comp(childIndex, index) < 0) {
+			this._list.swap(index, childIndex);
+			index = childIndex;
+			childIndex = this._matchChild(index);
 		}
 	}
 
 	// Swaps a node upward until the heap is valid
-	_heapifyUp(i) {
-		let parent = this._parent(i);
+	_heapifyUp(index: number): void {
+		let parentIndex = this._parent(index);
 		
-		// While there is a parent and the parent matches the condition to swap
-		while (this._comp(i, parent) < 0) {
-		  this._list.swap(i, parent);
-		  i = parent;
-		  parent = this._parent(i);
+		while (this._comp(index, parentIndex) < 0) {
+		  this._list.swap(index, parentIndex);
+		  index = parentIndex;
+		  parentIndex = this._parent(index);
 		}
 	}
 
 	// Inserts a value into the heap, maintaining order
-	// Returns true if insertion was successful
-	// Returns false otherwise
-	insert(value) {
+	// Returns true if the value is inserted successfully
+	insert(value: any): boolean {
 		this._list.push(value);
 		this._heapifyUp(this._list.length - 1);
 		return true;
 	}
 
 	// Removes a value from the heap, maintaining order
-	// Returns the removed value if successful
-	// Returns false otherwise
-	remove(value) {
-		let i = this._list.indexOf(value);
+	// Returns true if the value is removed successfully
+	// Returns false if the value does not exist in the heap
+	remove(value: any): boolean {
+		const index = this._list.indexOf(value);
 
-		// Return false if the value does not exist in the heap
-		if (i < 0) return false;
+		if (index < 0) {
+			return false;
+		}
 
 		// Swap the value with the end of the heap and remove it
-		this._list.swap(i, this._list.length - 1);
+		this._list.swap(index, this._list.length - 1);
 		this._list.remove(value);
 
 		// Try heapifying in either direction
 		// Only one of these should eventually modify the heap
-		this._heapifyUp(i);
-		this._heapifyDown(i);
+		this._heapifyUp(index);
+		this._heapifyDown(index);
 
 		return true;
 	}
