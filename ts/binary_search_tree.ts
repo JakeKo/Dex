@@ -230,7 +230,7 @@ module.exports =  class BinarySearchTree {
 		return result;
 
 		function traverse(node: BinaryNode): void {
-			if (node !== undefined && (node.hasValue() || node.hasLeftChild() || node.hasRightChild())) {
+			if (node !== undefined) {
 				for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
 					result.push(node.value);
 				}
@@ -248,7 +248,7 @@ module.exports =  class BinarySearchTree {
 		return result;
 
 		function traverse(node: BinaryNode): void {
-			if (node !== undefined && (node.hasValue() || node.hasLeftChild() || node.hasRightChild())) {
+			if (node !== undefined) {
 				traverse(node.leftChild);
 				
 				for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
@@ -267,7 +267,7 @@ module.exports =  class BinarySearchTree {
 		return result;
 
 		function traverse(node: BinaryNode): void {
-			if (node !== undefined && (node.hasValue() || node.hasLeftChild() || node.hasRightChild())) {
+			if (node !== undefined) {
 				traverse(node.leftChild);
 				traverse(node.rightChild);
 				
