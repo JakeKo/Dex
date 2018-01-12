@@ -89,6 +89,7 @@ module.exports = class BinarySearchTree {
     delete(value) {
         const node = this.get(value);
         let replacer = undefined;
+        let parent = undefined;
         if (node === undefined) {
             return false;
         }
@@ -97,8 +98,11 @@ module.exports = class BinarySearchTree {
         }
         if (node.count === 0) {
             if (node.hasLeftChild()) {
+                parent = node;
                 replacer = node.leftChild;
                 while (replacer.hasRightChild()) {
+                    console.log([replacer.value, parent.value]);
+                    parent = replacer;
                     replacer = replacer.rightChild;
                 }
                 node.value = replacer.value;
@@ -109,13 +113,16 @@ module.exports = class BinarySearchTree {
                 else {
                     replacer.value = replacer.leftChild.value;
                     replacer.rightChild = replacer.leftChild.rightChild;
-                    replacer.leftChild = replacer.leftChild.leftChild;
                     replacer.count = replacer.leftChild.count;
+                    replacer.leftChild = replacer.leftChild.leftChild;
                 }
             }
             else if (node.hasRightChild()) {
+                parent = node;
                 replacer = node.rightChild;
                 while (replacer.hasLeftChild()) {
+                    console.log([replacer.value, parent.value]);
+                    parent = replacer;
                     replacer = replacer.leftChild;
                 }
                 node.value = replacer.value;
@@ -126,8 +133,8 @@ module.exports = class BinarySearchTree {
                 else {
                     replacer.value = replacer.rightChild.value;
                     replacer.leftChild = replacer.rightChild.leftChild;
-                    replacer.rightChild = replacer.rightChild.rightChild;
                     replacer.count = replacer.rightChild.count;
+                    replacer.rightChild = replacer.rightChild.rightChild;
                 }
             }
             else {

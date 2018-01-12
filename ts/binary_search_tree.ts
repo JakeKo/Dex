@@ -135,8 +135,8 @@ module.exports =  class BinarySearchTree {
 					// Deep copy of left child
 					replacer.value = replacer.leftChild.value;
 					replacer.rightChild = replacer.leftChild.rightChild;
-					replacer.leftChild = replacer.leftChild.leftChild;
 					replacer.count = replacer.leftChild.count;
+					replacer.leftChild = replacer.leftChild.leftChild;
 				}
 			} else if (node.hasRightChild()) {
 				// Replacer should be the left-most child of the right subtree
@@ -155,8 +155,8 @@ module.exports =  class BinarySearchTree {
 					// Deep copy of right child
 					replacer.value = replacer.rightChild.value;
 					replacer.leftChild = replacer.rightChild.leftChild;
-					replacer.rightChild = replacer.rightChild.rightChild;
 					replacer.count = replacer.rightChild.count;
+					replacer.rightChild = replacer.rightChild.rightChild;
 				}
 			} else { // If the node is a leaf
 				const parent = this.parent(node.value);
