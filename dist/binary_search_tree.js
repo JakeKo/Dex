@@ -42,12 +42,12 @@ module.exports = class BinarySearchTree {
         while (true) {
             const equal = this._comp(value, node);
             if (equal < 0) {
-                if (!node.hasLeftChild()) {
-                    node.leftChild = new BinaryNode(value);
-                    return true;
+                if (node.hasLeftChild()) {
+                    node = node.leftChild;
                 }
                 else {
-                    node = node.leftChild;
+                    node.leftChild = new BinaryNode(value);
+                    return true;
                 }
             }
             else if (equal === 0) {
@@ -55,12 +55,12 @@ module.exports = class BinarySearchTree {
                 return true;
             }
             else if (equal > 0) {
-                if (!node.hasRightChild()) {
-                    node.rightChild = new BinaryNode(value);
-                    return true;
+                if (node.hasRightChild()) {
+                    node = node.rightChild;
                 }
                 else {
-                    node = node.rightChild;
+                    node.rightChild = new BinaryNode(value);
+                    return true;
                 }
             }
             else {
@@ -187,13 +187,14 @@ module.exports = class BinarySearchTree {
         traverse(this.root);
         return result;
         function traverse(node) {
-            if (node !== undefined) {
-                for (let i = 0; i < node.count; i++) {
-                    result.push(node.value);
-                }
-                traverse(node.leftChild);
-                traverse(node.rightChild);
+            if (node === undefined) {
+                return;
             }
+            for (let i = 0; i < node.count; i++) {
+                result.push(node.value);
+            }
+            traverse(node.leftChild);
+            traverse(node.rightChild);
         }
     }
     inOrderTraversal() {
@@ -201,13 +202,14 @@ module.exports = class BinarySearchTree {
         traverse(this.root);
         return result;
         function traverse(node) {
-            if (node !== undefined) {
-                traverse(node.leftChild);
-                for (let i = 0; i < node.count; i++) {
-                    result.push(node.value);
-                }
-                traverse(node.rightChild);
+            if (node === undefined) {
+                return;
             }
+            traverse(node.leftChild);
+            for (let i = 0; i < node.count; i++) {
+                result.push(node.value);
+            }
+            traverse(node.rightChild);
         }
     }
     postOrderTraversal() {
@@ -215,12 +217,13 @@ module.exports = class BinarySearchTree {
         traverse(this.root);
         return result;
         function traverse(node) {
-            if (node !== undefined) {
-                traverse(node.leftChild);
-                traverse(node.rightChild);
-                for (let i = 0; i < node.count; i++) {
-                    result.push(node.value);
-                }
+            if (node === undefined) {
+                return;
+            }
+            traverse(node.leftChild);
+            traverse(node.rightChild);
+            for (let i = 0; i < node.count; i++) {
+                result.push(node.value);
             }
         }
     }

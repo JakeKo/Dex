@@ -57,21 +57,21 @@ module.exports =  class BinarySearchTree {
 			const equal: number = this._comp(value, node);
 
 			if (equal < 0) { // If the value belongs in the left subtree
-				if (!node.hasLeftChild()) {
+				if (node.hasLeftChild()) {
+					node = node.leftChild;
+				} else {
 					node.leftChild = new BinaryNode(value);
 					return true;
-				} else {
-					node = node.leftChild;
 				}
 			} else if (equal === 0) { // If the value matches the current node
 				node.count++;
 				return true;
 			} else if (equal > 0) { // If the value belongs in the right subtree
-				if (!node.hasRightChild()) {
+				if (node.hasRightChild()) {
+					node = node.rightChild;
+				} else {
 					node.rightChild = new BinaryNode(value);
 					return true;
-				} else {
-					node = node.rightChild;
 				}
 			} else {
 				return false;
@@ -230,14 +230,16 @@ module.exports =  class BinarySearchTree {
 		return result;
 
 		function traverse(node: BinaryNode): void {
-			if (node !== undefined) {
-				for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
-					result.push(node.value);
-				}
-
-				traverse(node.leftChild);
-				traverse(node.rightChild);
+			if (node === undefined) {
+				return;
 			}
+
+			for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
+				result.push(node.value);
+			}
+
+			traverse(node.leftChild);
+			traverse(node.rightChild);
 		}
 	}
 	
@@ -248,15 +250,17 @@ module.exports =  class BinarySearchTree {
 		return result;
 
 		function traverse(node: BinaryNode): void {
-			if (node !== undefined) {
-				traverse(node.leftChild);
-				
-				for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
-					result.push(node.value);
-				}
-
-				traverse(node.rightChild);
+			if (node === undefined) {
+				return;
 			}
+
+			traverse(node.leftChild);
+			
+			for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
+				result.push(node.value);
+			}
+
+			traverse(node.rightChild);
 		}
 	}
 
@@ -267,13 +271,15 @@ module.exports =  class BinarySearchTree {
 		return result;
 
 		function traverse(node: BinaryNode): void {
-			if (node !== undefined) {
-				traverse(node.leftChild);
-				traverse(node.rightChild);
-				
-				for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
-					result.push(node.value);
-				}
+			if (node === undefined) {
+				return;
+			}
+			
+			traverse(node.leftChild);
+			traverse(node.rightChild);
+			
+			for (let i: number = 0; i < node.count; i++) { // Handle duplicate values
+				result.push(node.value);
 			}
 		}
 	}
