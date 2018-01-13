@@ -1,13 +1,13 @@
-module.exports =  class BinaryNode {
+module.exports = class BinaryNode {
 	private _value: any;
-	private _leftChild: BinaryNode;
-	private _rightChild: BinaryNode;
+	private _leftChild: any;
+	private _rightChild: any;
 	private _count: number;
 
-	constructor(value: any = undefined, left: any = undefined, right: any = undefined) {
+	constructor(value: any = undefined, leftChild: any = undefined, rightChild: any = undefined) {
 		this.value = value;
-		this.leftChild = left;
-		this.rightChild = right;
+		this.leftChild = leftChild;
+		this.rightChild = rightChild;
 		this.count = 1;
 	}
 	
@@ -51,8 +51,7 @@ module.exports =  class BinaryNode {
 		this._count = count;
 	}
 	
-	// Returns and an array containing the children of the node
-	// Excludes undefined children
+	// Returns an array containing the children of the node
 	public children(): any[] {
 		return [this.leftChild, this.rightChild].filter((e) => e !== undefined);
 	}
