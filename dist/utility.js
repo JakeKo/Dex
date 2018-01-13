@@ -1,3 +1,4 @@
+'use strict';
 Array.prototype.swap = function swap(i, j) {
     const temp = this[i];
     this[i] = this[j];

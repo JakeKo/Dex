@@ -1,6 +1,6 @@
 'use strict';
 const BinaryNode = require('./binary_node.js');
-const DEFAULT_COMP = (a, b) => {
+var DEFAULT_COMP = (a, b) => {
     if (a < b) {
         return -1;
     }
@@ -89,7 +89,6 @@ module.exports = class BinarySearchTree {
     delete(value) {
         const node = this.get(value);
         let replacer = undefined;
-        let parent = undefined;
         if (node === undefined) {
             return false;
         }
@@ -98,11 +97,8 @@ module.exports = class BinarySearchTree {
         }
         if (node.count === 0) {
             if (node.hasLeftChild()) {
-                parent = node;
                 replacer = node.leftChild;
                 while (replacer.hasRightChild()) {
-                    console.log([replacer.value, parent.value]);
-                    parent = replacer;
                     replacer = replacer.rightChild;
                 }
                 node.value = replacer.value;
@@ -118,11 +114,8 @@ module.exports = class BinarySearchTree {
                 }
             }
             else if (node.hasRightChild()) {
-                parent = node;
                 replacer = node.rightChild;
                 while (replacer.hasLeftChild()) {
-                    console.log([replacer.value, parent.value]);
-                    parent = replacer;
                     replacer = replacer.leftChild;
                 }
                 node.value = replacer.value;

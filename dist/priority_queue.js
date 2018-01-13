@@ -1,5 +1,6 @@
+'use strict';
 const Heap = require('./heap.js');
-const DEFAULT_COMP = (a, b) => {
+var DEFAULT_COMP = (a, b) => {
     if (a < b) {
         return -1;
     }

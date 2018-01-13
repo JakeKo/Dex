@@ -1,3 +1,5 @@
+'use strict';
+
 const Test = require('tape');
 const PriorityQueue = require('../dist/priority_queue.js');
 const DEFAULT_COMP = (a, b) => {

@@ -1,6 +1,8 @@
+'use strict';
+
 module.exports = class Sets {
-	static union(s1, s2) {
-		let s = new Set(s1);
+	public static union(s1: Set<any>, s2: Set<any>): Set<any> {
+		const s: Set<any> = new Set(s1);
 
 		s2.forEach(item => {
 			s.add(item);
@@ -9,8 +11,8 @@ module.exports = class Sets {
 		return s;
 	}
 
-	static intersection(s1, s2) {
-		let s = new Set();
+	public static intersection(s1: Set<any>, s2: Set<any>): Set<any> {
+		const s: Set<any> = new Set();
 
 		s1.forEach(item => {
 			if (s2.has(item)) s.add(item);
@@ -19,8 +21,8 @@ module.exports = class Sets {
 		return s;
 	}
 
-	static exclusion(s1, s2) {
-		let s = new Set(s1);
+	public static exclusion(s1: Set<any>, s2: Set<any>): Set<any> {
+		const s: Set<any> = new Set(s1);
 
 		s2.forEach(item => {
 			if (s.has(item)) s.delete(item);
@@ -30,8 +32,8 @@ module.exports = class Sets {
 		return s;
 	}
 
-	static difference(s1, s2) {
-		let s = new Set(s1);
+	public static difference(s1: Set<any>, s2: Set<any>): Set<any> {
+		const s: Set<any> = new Set(s1);
 
 		s2.forEach(item => {
 			s.delete(item);

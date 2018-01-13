@@ -1,3 +1,5 @@
+'use strict';
+
 const Test = require('tape');
 const Heap = require('../dist/heap.js');
 const DEFAULT_COMP = (a, b) => {

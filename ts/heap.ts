@@ -1,7 +1,7 @@
 'use strict';
 
 require('./utility.js');
-const DEFAULT_COMP = (a: number, b: number): number => {
+var DEFAULT_COMP: (a: number, b: number) => number = (a: number, b: number): number => {
 	if (a < b) {
 		return -1;
 	} else if (a === b) {
@@ -62,9 +62,9 @@ module.exports = class Heap {
 	// Returns undefined if the node does not have any children
 	// Returns the left child if there is no right child 
 	_matchChild(index: number): number {
-		const leftIndex = this._left(index);
-		const rightIndex = this._right(index);
-		const equal = this._comp(leftIndex, rightIndex);
+		const leftIndex: number = this._left(index);
+		const rightIndex: number = this._right(index);
+		const equal: number = this._comp(leftIndex, rightIndex);
 
 		if (equal === undefined) {
 			return this._list[leftIndex] === undefined ? undefined : leftIndex;
@@ -75,7 +75,7 @@ module.exports = class Heap {
 
 	// Swaps a node downard until the heap is valid
 	_heapifyDown(index: number): void {
-		let childIndex = this._matchChild(index);
+		let childIndex: number = this._matchChild(index);
 		
 		while (this._comp(childIndex, index) < 0) {
 			this._list.swap(index, childIndex);
@@ -86,7 +86,7 @@ module.exports = class Heap {
 
 	// Swaps a node upward until the heap is valid
 	_heapifyUp(index: number): void {
-		let parentIndex = this._parent(index);
+		let parentIndex: number = this._parent(index);
 		
 		while (this._comp(index, parentIndex) < 0) {
 		  this._list.swap(index, parentIndex);
@@ -107,7 +107,7 @@ module.exports = class Heap {
 	// Returns true if the value is removed successfully
 	// Returns false if the value does not exist in the heap
 	remove(value: any): boolean {
-		const index = this._list.indexOf(value);
+		const index: number = this._list.indexOf(value);
 
 		if (index < 0) {
 			return false;
