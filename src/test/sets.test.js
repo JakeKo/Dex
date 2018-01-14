@@ -1,7 +1,7 @@
 'use strict';
 
 const Test = require('tape');
-const Sets = require('../dist/sets.js');
+const Sets = require('../js/sets.js');
 
 // All sets are identical in the eyes of deepEqual
 // This ensures element-wise identicality

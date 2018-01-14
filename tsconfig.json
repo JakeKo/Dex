@@ -5,11 +5,10 @@
 		"outDir": "./dist/",
         "target": "es6",
         "moduleResolution": "classic",
-        "module": "commonjs",
-        // "declaration": true,
-        // "strict": true
+        "module": "commonjs"
     },
     "include": [
-        "./ts/*.ts",
+        "./src/ts/*.ts",
+        "./src/test/*.ts",
     ]
 }
