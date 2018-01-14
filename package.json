@@ -4,7 +4,8 @@
   "description": "Dex is web framework that I am developing in my free time which implements your standard Data Structures 101 and Discrete Math 101 ideas. There are probably other *better* frameworks out there. But this one is mine.",
   "main": "test.js",
   "scripts": {
-    "test": "tape ./dist/test/*.test.js | tap-spec"
+    "build": "gulp build",
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,10 @@
   },
   "homepage": "https://github.com/JakeKo/Dex#readme",
   "devDependencies": {
-    "tap-spec": "^4.1.1",
+    "gulp": "^3.9.1",
+    "gulp-tape": "0.0.9",
+    "gulp-typescript": "^4.0.0-alpha.1",
+    "tap-colorize": "^1.2.0",
     "tape": "^4.8.0",
     "typescript": "^2.6.2"
   }
