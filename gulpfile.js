@@ -3,7 +3,6 @@
 const gulp = require('gulp');
 const typescript = require('gulp-typescript');
 const tape = require('gulp-tape');
-const tapColorize = require('tap-colorize');
  
 gulp.task('typescript js', () => {
     return gulp.src('./src/ts/*.ts')
@@ -23,7 +22,5 @@ gulp.task('default', [
 
 gulp.task('test', () => {
 	return gulp.src('./test/*.test.js')
-		.pipe(tape({
-			reporter: tapColorize(),
-		}));
+		.pipe(tape());
 });

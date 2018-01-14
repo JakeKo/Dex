@@ -21,7 +21,6 @@
     "gulp": "^3.9.1",
     "gulp-tape": "0.0.9",
     "gulp-typescript": "^4.0.0-alpha.1",
-    "tap-colorize": "^1.2.0",
     "tape": "^4.8.0",
     "typescript": "^2.6.2"
   }
