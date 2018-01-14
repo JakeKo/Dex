@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = class Sets {
+export class Sets {
 	public static union(s1: Set<any>, s2: Set<any>): Set<any> {
 		const s: Set<any> = new Set(s1);
 

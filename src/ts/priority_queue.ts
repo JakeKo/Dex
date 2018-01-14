@@ -1,6 +1,6 @@
 'use strict';
 
-const Heap = require('./heap.js')
+import { Heap } from './heap.js';
 var DEFAULT_COMP: (a: number, b: number) => number = (a: number, b: number): number => {
 	if (a < b) {
 		return -1;
@@ -11,7 +11,7 @@ var DEFAULT_COMP: (a: number, b: number) => number = (a: number, b: number): num
 	}
 };
 
-module.exports = class PriorityQueue {
+export class PriorityQueue {
 	private _heap: Heap;
 
 	constructor(comp: (a: number, b: number) => number = DEFAULT_COMP, list: any[] = []) {

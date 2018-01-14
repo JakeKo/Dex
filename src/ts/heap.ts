@@ -1,6 +1,5 @@
 'use strict';
 
-require('./utility.js');
 var DEFAULT_COMP: (a: number, b: number) => number = (a: number, b: number): number => {
 	if (a < b) {
 		return -1;
@@ -11,7 +10,7 @@ var DEFAULT_COMP: (a: number, b: number) => number = (a: number, b: number): num
 	}
 };
 
-module.exports = class Heap {
+export class Heap {
 	private _list: any[];
 	private _comp: (i: number, j: number) => number;
 
@@ -57,6 +56,12 @@ module.exports = class Heap {
 	_parent(index: number): number {
 		return Math.floor((index - 1) / 2);
 	}
+
+	_swap(i: number, j: number): void {
+		const temp: any = this._list[i];
+		this._list[i] = this._list[j];
+		this._list[j] = temp;
+	}
 	
 	// Returns the index of the child matching the condition provided by the comparator
 	// Returns undefined if the node does not have any children
@@ -78,7 +83,7 @@ module.exports = class Heap {
 		let childIndex: number = this._matchChild(index);
 		
 		while (this._comp(childIndex, index) < 0) {
-			this._list.swap(index, childIndex);
+			this._swap(index, childIndex);
 			index = childIndex;
 			childIndex = this._matchChild(index);
 		}
@@ -89,7 +94,7 @@ module.exports = class Heap {
 		let parentIndex: number = this._parent(index);
 		
 		while (this._comp(index, parentIndex) < 0) {
-		  this._list.swap(index, parentIndex);
+		  this._swap(index, parentIndex);
 		  index = parentIndex;
 		  parentIndex = this._parent(index);
 		}
@@ -114,8 +119,8 @@ module.exports = class Heap {
 		}
 
 		// Swap the value with the end of the heap and remove it
-		this._list.swap(index, this._list.length - 1);
-		this._list.remove(value);
+		this._swap(index, this._list.length - 1);
+		this._list.splice(index, 1);
 
 		// Try heapifying in either direction
 		// Only one of these should eventually modify the heap

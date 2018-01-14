@@ -1,6 +1,6 @@
 'use strict';
 
-const BinaryNode = require('./binary_node.js');
+import { BinaryNode } from './binary_node.js'
 var DEFAULT_COMP: (a: number, b: number) => number = (a: number, b: number): number => {
 	if (a < b) {
 		return -1;
@@ -11,7 +11,7 @@ var DEFAULT_COMP: (a: number, b: number) => number = (a: number, b: number): num
 	}
 };
 
-module.exports = class BinarySearchTree {
+export class BinarySearchTree {
 	private _root: BinaryNode;
 	private _baseComp: (a: number, b: number) => number;
 	private _comp: (value: any, node: BinaryNode) => number;

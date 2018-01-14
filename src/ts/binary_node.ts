@@ -1,4 +1,4 @@
-module.exports = class BinaryNode {
+export class BinaryNode {
 	private _value: any;
 	private _leftChild: any;
 	private _rightChild: any;

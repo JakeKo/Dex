@@ -1,7 +1,7 @@
 'use strict';
 
 const Test = require('tape');
-const BinaryNode = require('../dist/js/binary_node.js');
+import { BinaryNode } from '../dist/js/binary_node.js';
 
 Test('The Node class instantitates with no arguments', (assert) => {
 	const n = new BinaryNode();

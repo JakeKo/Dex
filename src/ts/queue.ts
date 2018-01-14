@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = class Queue {
+export class Queue {
 	private _list: any[];
 
 	constructor(list: any[] = []) {
