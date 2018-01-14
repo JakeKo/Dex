@@ -1,7 +1,7 @@
 'use strict';
 
 const Test = require('tape');
-const BinarySearchTree = require('../js/binary_search_tree.js');
+const BinarySearchTree = require('../dist/js/binary_search_tree.js');
 const DEFAULT_COMP = (a, b) => {
 	if (a < b) {
 		return -1;
