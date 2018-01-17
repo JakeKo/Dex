@@ -1,7 +1,7 @@
 'use strict';
 
 const Test = require('tape');
-import { PriorityQueue } from '../dist/js/priority_queue.js';
+const PriorityQueue = require('../dist/js/priority_queue.js').PriorityQueue;
 const DEFAULT_COMP = (a, b) => {
 	if (a < b) {
 		return -1;

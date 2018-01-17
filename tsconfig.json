@@ -1,14 +1,17 @@
 {
-    "files": [
+    "include": [
         "./src/ts/*.ts"
     ],
     "compilerOptions": {
 		"charset": "utf8",
 		"noImplicitAny": true,
 		"removeComments": true,
-		"target": "ES2017",
-		"moduleResolution": "Node",
-		"module": "ES6",
+		"target": "es2015",
+		"moduleResolution": "classic",
+		"module": "commonjs",
 		"sourceMap": true,
+		"outDir": "./dist/js",
+		"declarationDir": "./dist/declare/",
+		"declaration": true,
     }
 }

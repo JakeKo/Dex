@@ -1,7 +1,7 @@
 'use strict';
 
 const Test = require('tape');
-import { Heap } from '../dist/js/heap.js';
+const Heap = require('../dist/js/heap.js').Heap;
 const DEFAULT_COMP = (a, b) => {
 	if (a < b) {
 		return -1;
