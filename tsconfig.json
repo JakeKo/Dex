@@ -1,0 +1,15 @@
+{
+    "files": [
+        "./src/ts/*.ts"
+    ],
+    "compilerOptions": {
+		"charset": "utf8",
+		"diagnostics": true,
+		"noImplicitAny": true,
+		"removeComments": true,
+		"target": "ES2017",
+		"moduleResolution": "Node",
+		"module": "ES6",
+		"sourceMap": true,
+    }
+}
