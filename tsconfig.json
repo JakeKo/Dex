@@ -4,7 +4,6 @@
     ],
     "compilerOptions": {
 		"charset": "utf8",
-		"diagnostics": true,
 		"noImplicitAny": true,
 		"removeComments": true,
 		"target": "ES2017",
