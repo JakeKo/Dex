@@ -1,15 +1,7 @@
 'use strict';
 
-import { BinaryNode } from './binary_node.js'
-var DEFAULT_COMP: (a: number, b: number) => number = (a: number, b: number): number => {
-	if (a < b) {
-		return -1;
-	} else if (a === b) {
-		return 0;
-	} else if (a > b) {
-		return 1;
-	}
-};
+import { BinaryNode } from './binary_node.js';
+import { DEFAULT_COMP } from './utility.js';
 
 export class BinarySearchTree {
 	private _root: BinaryNode;

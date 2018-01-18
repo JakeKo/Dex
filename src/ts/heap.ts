@@ -1,14 +1,6 @@
 'use strict';
 
-var DEFAULT_COMP: (a: number, b: number) => number = (a: number, b: number): number => {
-	if (a < b) {
-		return -1;
-	} else if (a === b) {
-		return 0;
-	} else if (a > b) {
-		return 1;
-	}
-};
+import { DEFAULT_COMP } from './utility.js';
 
 export class Heap {
 	private _list: any[];
