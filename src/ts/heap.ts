@@ -120,7 +120,7 @@ export class Heap {
 
 		// Swap the value with the end of the heap and remove it
 		this._swap(index, this._list.length - 1);
-		this._list.splice(index, 1);
+		this._list.pop();
 
 		// Try heapifying in either direction
 		// Only one of these should eventually modify the heap
