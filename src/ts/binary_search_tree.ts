@@ -101,69 +101,83 @@ export class BinarySearchTree {
 	// Returns false if the value does not exist
 	public delete(value: any): boolean {
 		const node: BinaryNode = this.get(value);
-		let replacer: BinaryNode = undefined;
 
 		if (node === undefined) {
 			return false;
-		} else {
-			node.count--;
 		}
 
-		if (node.count === 0) {
-			if (node.hasLeftChild()) {
-				// Replacer should be the right-most child of the left subtree
-				replacer = node.leftChild;
-				while (replacer.hasRightChild()) {
-					replacer = replacer.rightChild;
-				}
-	
-				// Swap values
-				node.value = replacer.value;
-				node.count = replacer.count;
+		if (--node.count > 0) {
+			return true;
+		}
 
-				if (!replacer.hasLeftChild()) { // If replacer has no left subtree, remove the node
-					this.parent(replacer.value).rightChild = undefined;
-				} else { // If replacer has a left subtree, replacer must become that left subtree
-					// Deep copy of left child
-					replacer.value = replacer.leftChild.value;
-					replacer.rightChild = replacer.leftChild.rightChild;
-					replacer.count = replacer.leftChild.count;
-					replacer.leftChild = replacer.leftChild.leftChild;
-				}
-			} else if (node.hasRightChild()) {
-				// Replacer should be the left-most child of the right subtree
-				replacer = node.rightChild;
-				while (replacer.hasLeftChild()) {
-					replacer = replacer.leftChild;
-				}
-				
-				// Swap values
-				node.value = replacer.value;
-				node.count = replacer.count;
+		if (node.hasLeftChild()) {
+			let swapNode: BinaryNode = this.rightMostChild(node.leftChild);
 
-				if (!replacer.hasRightChild()) { // If replacer has no right subtree, remove the node
-					this.parent(replacer.value).leftChild = undefined;
-				} else { // If replacer has a right subtree, replacer must become that right subtree
-					// Deep copy of right child
-					replacer.value = replacer.rightChild.value;
-					replacer.leftChild = replacer.rightChild.leftChild;
-					replacer.count = replacer.rightChild.count;
-					replacer.rightChild = replacer.rightChild.rightChild;
-				}
-			} else { // If the node is a leaf
-				const parent = this.parent(node.value);
-				
-				if (parent === undefined) { // Node is the root
-					this._root = undefined;
-				} else if (parent.leftChild.value === node.value) {
-					parent.leftChild = undefined;
-				} else if (parent.rightChild.value === node.value) {
-					parent.rightChild = undefined;
-				}
+			// Swap values
+			node.value = swapNode.value;
+			node.count = swapNode.count;
+
+			if (!swapNode.hasLeftChild()) { // If swapNode has no left subtree, remove the node
+				this._deleteFromParent(swapNode);
+			} else { // If swapNode has a left subtree, swapNode must become that left subtree
+				this._deepCopyNode(swapNode, swapNode.leftChild);
 			}
+		} else if (node.hasRightChild()) {
+			let swapNode: BinaryNode = this.leftMostChild(node.rightChild);
+			
+			// Swap values
+			node.value = swapNode.value;
+			node.count = swapNode.count;
+
+			if (!swapNode.hasRightChild()) { // If swapNode has no right subtree, remove the node
+				this._deleteFromParent(swapNode);
+			} else { // If swapNode has a right subtree, swapNode must become that right subtree
+				this._deepCopyNode(swapNode, swapNode.rightChild);
+			}
+		} else { // If the node is a leaf
+			this._deleteFromParent(node);
 		}
 
 		return true;
+	}
+
+	// Returns the left-most child of the given node
+	public leftMostChild(node: BinaryNode): BinaryNode {
+		while (node.hasLeftChild()) {
+			node = node.leftChild;
+		}
+
+		return node;
+	}
+
+	// Returns the right-most child of the given node
+	public rightMostChild(node: BinaryNode): BinaryNode {
+		while (node.hasRightChild()) {
+			node = node.rightChild;
+		}
+
+		return node;
+	}
+
+	// Creates a deep copy from the src node to the dest node
+	private _deepCopyNode(dest: BinaryNode, src: BinaryNode): void {
+		dest.value = src.value;
+		dest.leftChild = src.leftChild;
+		dest.count = src.count;
+		dest.rightChild = src.rightChild;
+	}
+
+	// Deletes the given node using its parent to handle references
+	private _deleteFromParent(node: BinaryNode): void {
+		const parent = this.parent(node.value);
+				
+		if (parent === undefined) { // Node is the root
+			this.root = undefined;
+		} else if (parent.leftChild.value === node.value) {
+			parent.leftChild = undefined;
+		} else if (parent.rightChild.value === node.value) {
+			parent.rightChild = undefined;
+		}
 	}
 
 	// Returns the parent of the node with the specified value
