@@ -117,10 +117,10 @@ export class BinarySearchTree {
 			node.value = swapNode.value;
 			node.count = swapNode.count;
 
-			if (!swapNode.hasLeftChild()) { // If swapNode has no left subtree, remove the node
-				this._deleteFromParent(swapNode);
-			} else { // If swapNode has a left subtree, swapNode must become that left subtree
+			if (swapNode.hasLeftChild()) { // If swapNode has a left child, swapNode must become that left child
 				this._deepCopyNode(swapNode, swapNode.leftChild);
+			} else { // Else, remove the node
+				this._deleteFromParent(swapNode);
 			}
 		} else if (node.hasRightChild()) {
 			let swapNode: BinaryNode = this.leftMostChild(node.rightChild);
@@ -129,10 +129,10 @@ export class BinarySearchTree {
 			node.value = swapNode.value;
 			node.count = swapNode.count;
 
-			if (!swapNode.hasRightChild()) { // If swapNode has no right subtree, remove the node
-				this._deleteFromParent(swapNode);
-			} else { // If swapNode has a right subtree, swapNode must become that right subtree
+			if (swapNode.hasRightChild()) { // If swapNode has a right child, swapNode must become that right child
 				this._deepCopyNode(swapNode, swapNode.rightChild);
+			} else { // Else, remove the node
+				this._deleteFromParent(swapNode);
 			}
 		} else { // If the node is a leaf
 			this._deleteFromParent(node);
