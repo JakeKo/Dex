@@ -35,21 +35,21 @@ export class Heap {
 	}
 
 	// Returns the index of the left child
-	_left(index: number): number {
+	private _left(index: number): number {
 		return 2 * index + 1;
 	}
 
 	// Return the index of the right child
-	_right(index: number): number {
+	private _right(index: number): number {
 		return this._left(index) + 1;
 	}
 
 	// Returns the index of the parent
-	_parent(index: number): number {
+	private _parent(index: number): number {
 		return Math.floor((index - 1) / 2);
 	}
 
-	_swap(i: number, j: number): void {
+	private _swap(i: number, j: number): void {
 		const temp: any = this._list[i];
 		this._list[i] = this._list[j];
 		this._list[j] = temp;
@@ -58,7 +58,7 @@ export class Heap {
 	// Returns the index of the child matching the condition provided by the comparator
 	// Returns undefined if the node does not have any children
 	// Returns the left child if there is no right child 
-	_matchChild(index: number): number {
+	private _matchChild(index: number): number {
 		const leftIndex: number = this._left(index);
 		const rightIndex: number = this._right(index);
 		const equal: number = this._comp(leftIndex, rightIndex);
@@ -71,7 +71,7 @@ export class Heap {
 	}
 
 	// Swaps a node downard until the heap is valid
-	_heapifyDown(index: number): void {
+	private _heapifyDown(index: number): void {
 		let childIndex: number = this._matchChild(index);
 		
 		while (this._comp(childIndex, index) < 0) {
@@ -82,7 +82,7 @@ export class Heap {
 	}
 
 	// Swaps a node upward until the heap is valid
-	_heapifyUp(index: number): void {
+	private _heapifyUp(index: number): void {
 		let parentIndex: number = this._parent(index);
 		
 		while (this._comp(index, parentIndex) < 0) {
@@ -94,7 +94,7 @@ export class Heap {
 
 	// Inserts a value into the heap, maintaining order
 	// Returns true if the value is inserted successfully
-	insert(value: any): boolean {
+	public insert(value: any): boolean {
 		this._list.push(value);
 		this._heapifyUp(this._list.length - 1);
 		return true;
@@ -103,7 +103,7 @@ export class Heap {
 	// Removes a value from the heap, maintaining order
 	// Returns true if the value is removed successfully
 	// Returns false if the value does not exist in the heap
-	remove(value: any): boolean {
+	public remove(value: any): boolean {
 		const index: number = this._list.indexOf(value);
 
 		if (index < 0) {
